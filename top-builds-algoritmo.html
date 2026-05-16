@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🏆 Top Builds Gaming 2026</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0f172a;
+  color:white;
+  font-family:Arial, Helvetica, sans-serif;
+  padding:40px;
+}
+
+h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#94a3b8;
+  margin-bottom:30px;
+}
+
+.back-btn{
+  display:inline-block;
+  background:#2563eb;
+  color:white;
+  padding:10px 20px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  margin-bottom:20px;
+  transition:all 0.3s ease;
+}
+
+.back-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.table-container{
+  overflow-x:auto;
+  border-radius:18px;
+  border:1px solid #1e293b;
+  background:#111827;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1600px;
+}
+
+th, td{
+  padding:16px;
+  text-align:left;
+  border-bottom:1px solid #1e293b;
+  vertical-align:top;
+}
+
+th{
+  background:#1e293b;
+  color:#cbd5e1;
+  font-size:14px;
+  text-transform:uppercase;
+}
+
+tr:hover{
+  background:#172033;
+}
+
+.rank{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.price{
+  color:#38bdf8;
+  font-weight:bold;
+}
+
+.score{
+  color:#86efac;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.good{
+  color:#86efac;
+}
+
+.bad{
+  color:#fca5a5;
+}
+
+.tag{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.best{
+  background:#14532d;
+  color:#bbf7d0;
+}
+
+.premium{
+  background:#312e81;
+  color:#c7d2fe;
+}
+
+.future{
+  background:#3f3f46;
+  color:#e4e4e7;
+}
+
+.value{
+  background:#78350f;
+  color:#fde68a;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="back-btn">← Volver al Inicio</a>
+<h1>🏆 Top Builds Gaming 2026</h1>
+
+<p class="subtitle">
+Ranking automático basado en:
+GPU, CPU, motherboard, RAM, SSD, PSU, refrigeración,
+longevidad AM5 y calidad/precio.
+</p>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+  <th>Rank</th>
+  <th>CPU</th>
+  <th>Board</th>
+  <th>GPU</th>
+  <th>RAM</th>
+  <th>SSD</th>
+  <th>Fuente</th>
+  <th>Extras</th>
+  <th>Precio</th>
+  <th>Score</th>
+  <th>Categoría</th>
+  <th>Pros</th>
+  <th>Contras</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+// ========================================
+// BUILDS
+// ========================================
+
+const builds = [];
+
+// ========================================
+// AGREGAR BUILD
+// ========================================
+
+function addBuild(build){
+
+  build.score = calculateScore(build);
+
+  builds.push(build);
+
+  builds.sort((a,b)=> b.score - a.score);
+
+  renderTable();
+}
+
+// ========================================
+// HELPER FUNCTIONS - COMPONENT SCORES
+// ========================================
+
+function getCPUScore(cpu){
+  // Gama Alta (100-120 puntos base)
+  if(cpu.includes("9950") || cpu.includes("9900") || cpu.includes("9800X3D")) return 115;
+  if(cpu.includes("14900K") || cpu.includes("14700K")) return 110;
+  
+  // Gama Media-Alta (85-99 puntos base)
+  if(cpu.includes("9700") || cpu.includes("9600X")) return 100;
+  if(cpu.includes("8700F")) return 88;
+  if(cpu.includes("14600K") || cpu.includes("14400F")) return 90;
+  
+  // Gama Media (70-84 puntos base)
+  if(cpu.includes("7600X")) return 82;
+  if(cpu.includes("7500F")) return 72;
+  if(cpu.includes("13400")) return 75;
+  
+  // Gama Baja (40-69 puntos base)
+  if(cpu.includes("5600")) return 55;
+  if(cpu.includes("5500") || cpu.includes("4500")) return 45;
+  if(cpu.includes("4800F")) return 40;
+  if(cpu.includes("12100F") || cpu.includes("13100F")) return 42;
+  
+  return 30; // Default para CPUs no reconocidas
+}
+
+function getGPUScore(gpu){
+  // Gama Ultra-Alta (150-180 puntos base)
+  if(gpu.includes("5090")) return 175;
+  if(gpu.includes("5080")) return 160;
+  if(gpu.includes("9090")) return 155;
+  
+  // Gama Alta (130-149 puntos base)
+  if(gpu.includes("5070")) return 145;
+  if(gpu.includes("9080")) return 140;
+  if(gpu.includes("9070")) return 135;
+  
+  // Gama Media-Alta (110-129 puntos base)
+  if(gpu.includes("5060") && gpu.includes("Ti")) return 125;
+  if(gpu.includes("9060")) return 120;
+  
+  // Gama Media (90-109 puntos base)
+  if(gpu.includes("5060") && !gpu.includes("Ti")) return 100;
+  if(gpu.includes("7600")) return 95;
+  if(gpu.includes("4060")) return 90;
+  
+  // Gama Baja (60-89 puntos base)
+  if(gpu.includes("6600") || gpu.includes("1660")) return 75;
+  if(gpu.includes("3050") || gpu.includes("2060")) return 65;
+  
+  return 50; // Default para GPUs no reconocidas
+}
+
+function getBoardScore(board){
+  // Gama Alta (45-55 puntos base)
+  if(board.includes("X870E") || board.includes("X870")) return 50;
+  if(board.includes("Z890")) return 48;
+  
+  // Gama Media-Alta (35-44 puntos base)
+  if(board.includes("B850E") || board.includes("B850")) return 40;
+  if(board.includes("B840")) return 35;
+  
+  // Gama Media (25-34 puntos base)
+  if(board.includes("B650E") || board.includes("B650")) return 30;
+  if(board.includes("Z790")) return 32;
+  
+  // Gama Baja (10-24 puntos base)
+  if(board.includes("A620") || board.includes("A620A")) return 15;
+  if(board.includes("B760")) return 18;
+  
+  return 20; // Default para boards no reconocidas
+}
+
+function getRAMScore(ram){
+  let score = 0;
+  
+  // Capacidad
+  if(ram.includes("32GB")) score += 15;
+  else if(ram.includes("16GB")) score += 10;
+  else if(ram.includes("8GB")) score += 5;
+  
+  // Velocidad DDR5
+  if(ram.includes("6400")) score += 12;
+  else if(ram.includes("6000") || ram.includes("6200")) score += 10;
+  else if(ram.includes("5600") || ram.includes("5800")) score += 8;
+  else if(ram.includes("5200") || ram.includes("5400")) score += 5;
+  else if(ram.includes("4800") || ram.includes("5000")) score += 3;
+  
+  // Velocidad DDR4
+  if(ram.includes("3600")) score += 6;
+  else if(ram.includes("3200") || ram.includes("3400")) score += 4;
+  else if(ram.includes("3000")) score += 2;
+  
+  // Marcas premium
+  if(ram.includes("G.Skill") || ram.includes("Trident")) score += 8;
+  if(ram.includes("Corsair") || ram.includes("Vengeance")) score += 8;
+  if(ram.includes("Kingston") || ram.includes("Fury")) score += 6;
+  if(ram.includes("XPG") || ram.includes("Lancer")) score += 6;
+  if(ram.includes("Patriot") || ram.includes("Viper")) score += 4;
+  if(ram.includes("Crucial")) score += 4;
+  
+  return score;
+}
+
+function getSSDScore(ssd){
+  let score = 0;
+  
+  // Capacidad
+  if(ssd.includes("2TB") || ssd.includes("1.92TB")) score += 25;
+  else if(ssd.includes("1TB") || ssd.includes("960GB")) score += 18;
+  else if(ssd.includes("512") || ssd.includes("500GB") || ssd.includes("480GB")) score += 10;
+  else if(ssd.includes("256") || ssd.includes("240GB")) score += 5;
+  
+  // Tipo (multiplicador aplicado en calculateScore)
+  // NVMe PCIe 4.0/5.0 vs NVMe PCIe 3.0 vs SATA
+  
+  // Marcas premium
+  if(ssd.includes("Samsung") && (ssd.includes("990") || ssd.includes("980"))) score += 8;
+  if(ssd.includes("Kingston") && (ssd.includes("KC3000") || ssd.includes("Fury"))) score += 6;
+  if(ssd.includes("Crucial") && ssd.includes("P310")) score += 8;
+  if(ssd.includes("WD") && ssd.includes("Black")) score += 6;
+  if(ssd.includes("Patriot") || ssd.includes("Viper")) score += 4;
+  
+  return score;
+}
+
+function getPSUScore(psu){
+  let score = 0;
+  
+  // Certificación
+  if(psu.includes("Platinum")) score += 35;
+  else if(psu.includes("Gold")) score += 25;
+  else if(psu.includes("Bronze")) score += 12;
+  else if(psu.includes("White") || psu.includes("80+")) score += 5;
+  
+  // Potencia adecuada
+  if(psu.includes("850W") || psu.includes("1000W")) score += 10;
+  else if(psu.includes("750W")) score += 8;
+  else if(psu.includes("650W")) score += 5;
+  else if(psu.includes("550W") || psu.includes("600W")) score += 3;
+  
+  // Marcas premium
+  if(psu.includes("Corsair") && (psu.includes("RMx") || psu.includes("AX"))) score += 12;
+  if(psu.includes("Cooler Master") && (psu.includes("MWE Gold") || psu.includes("V Gold"))) score += 10;
+  if(psu.includes("Seasonic") && psu.includes("Focus")) score += 10;
+  if(psu.includes("EVGA") && psu.includes("SuperNOVA")) score += 8;
+  if(psu.includes("MSI") && (psu.includes("MAG") || psu.includes("A750"))) score += 10;
+  if(psu.includes("FSP")) score += 8;
+  if(psu.includes("ASRock") && psu.includes("PRO")) score += 8;
+  
+  // Marcas con penalización
+  if(psu.includes("AZZA") || psu.includes("ARESGAME")) score -= 5;
+  if(psu.includes("JYR")) score -= 8;
+  
+  return score;
+}
+
+function getCoolingScore(extras){
+  let score = 0;
+  const extrasLower = extras.toLowerCase();
+  
+  // Tipo de refrigeración
+  if(extrasLower.includes("360") && extrasLower.includes("líquida")) score += 18;
+  else if(extrasLower.includes("240") && extrasLower.includes("líquida")) score += 12;
+  else if(extrasLower.includes("120") && extrasLower.includes("líquida")) score += 8;
+  else if(extrasLower.includes("líquida")) score += 10;
+  else if(extrasLower.includes("thermalright")) score += 10;
+  else if(extrasLower.includes("noctua")) score += 12;
+  else if(extrasLower.includes("corsair") && extrasLower.includes("icue")) score += 6;
+  else if(extrasLower.includes("nzxt") && extrasLower.includes("kraken")) score += 8;
+  
+  return score;
+}
+
+function getCaseScore(extras){
+  let score = 0;
+  
+  // Marcas premium
+  if(extras.includes("Fractal") || extras.includes("NZXT") || extras.includes("Lian Li")) score += 8;
+  if(extras.includes("Cooler Master") && extras.includes("MasterBox")) score += 6;
+  if(extras.includes("Cougar") || extras.includes("Antec") || extras.includes("Phanteks")) score += 6;
+  if(extras.includes("Iceberg") && (extras.includes("Flow") || extras.includes("Titan"))) score += 6;
+  if(extras.includes("XPG") && (extras.includes("Invader") || extras.includes("Defender"))) score += 5;
+  
+  return score;
+}
+
+// ========================================
+// SCORE ENGINE v1.5
+// ========================================
+
+function calculateScore(build){
+  
+  // 1. Calcular puntos base por componente
+  const cpuScore = getCPUScore(build.cpu);
+  const gpuScore = getGPUScore(build.gpu);
+  const boardScore = getBoardScore(build.board);
+  const ramScore = getRAMScore(build.ram);
+  const ssdScore = getSSDScore(build.ssd);
+  const psuScore = getPSUScore(build.psu);
+  const coolingScore = getCoolingScore(build.extras);
+  const caseScore = getCaseScore(build.extras);
+  
+  // 2. Aplicar multiplicadores según importancia del componente
+  let weightedScore = 
+    (gpuScore * 1.5) +           // GPU es el componente más crítico para gaming
+    (cpuScore * 1.3) +           // CPU es el segundo más importante
+    (boardScore * 1.0) +         // Base del sistema
+    (ramScore * 0.8) +           // RAM importante pero menos crítica
+    (ssdScore * 0.6) +           // SSD afecta carga pero no gaming directamente
+    (psuScore * 0.5) +           // PSU es crítico pero no afecta rendimiento
+    (coolingScore * 0.4) +       // Cooling es importante pero secundario
+    (caseScore * 0.3);           // Case es principalmente estética
+  
+  // 3. Factor calidad-precio (penaliza builds caras con bajo rendimiento)
+  let priceInMillions = build.price / 1000000;
+  let valueScore = (weightedScore / priceInMillions) * 10;
+  
+  // 4. Penalización por precio alto con bajo rendimiento
+  let penalty = 0;
+  if(build.price > 6500000 && weightedScore < 280) penalty = -15;
+  if(build.price > 7000000 && weightedScore < 300) penalty = -25;
+  
+  // 5. Bonus por rango de presupuesto
+  let budgetBonus = 0;
+  if(build.price < 5500000 && weightedScore > 250) budgetBonus = 20;
+  if(build.price >= 5500000 && build.price <= 6500000 && weightedScore > 280) budgetBonus = 10;
+  
+  // Score final (redondeado)
+  return Math.round(weightedScore + valueScore + penalty + budgetBonus);
+}
+
+// ========================================
+// CATEGORY
+// ========================================
+
+function getCategory(score){
+
+  if(score >= 400){
+    return {
+      text:"🔥 High-End Inteligente",
+      class:"best"
+    };
+  }
+
+  if(score >= 360){
+    return {
+      text:"👑 Premium",
+      class:"premium"
+    };
+  }
+
+  if(score >= 320){
+    return {
+      text:"🚀 Excelente",
+      class:"future"
+    };
+  }
+
+  if(score >= 280){
+    return {
+      text:"💎 Muy Bueno",
+      class:"future"
+    };
+  }
+
+  return {
+    text:"💰 Calidad/Precio",
+    class:"value"
+  };
+}
+
+// ========================================
+// RENDER TABLE
+// ========================================
+
+function renderTable(){
+
+  const tbody = document.getElementById("tbody");
+
+  tbody.innerHTML = "";
+
+  builds.forEach((build,index)=>{
+
+    let medal = index + 1;
+
+    if(index === 0) medal = "🥇";
+    if(index === 1) medal = "🥈";
+    if(index === 2) medal = "🥉";
+
+    const category = getCategory(build.score);
+
+    tbody.innerHTML += `
+      <tr>
+
+        <td class="rank">${medal}</td>
+
+        <td>${build.cpu}</td>
+
+        <td>${build.board}</td>
+
+        <td>${build.gpu}</td>
+
+        <td>${build.ram}</td>
+
+        <td>${build.ssd}</td>
+
+        <td>${build.psu}</td>
+
+        <td>${build.extras}</td>
+
+        <td class="price">
+          $${build.price.toLocaleString("es-CO")}
+        </td>
+
+        <td class="score">
+          ${build.score}
+        </td>
+
+        <td>
+          <span class="tag ${category.class}">
+            ${category.text}
+          </span>
+        </td>
+
+        <td class="good">
+          ${build.pros}
+        </td>
+
+        <td class="bad">
+          ${build.cons}
+        </td>
+
+      </tr>
+    `;
+  });
+
+}
+
+// ========================================
+// BUILDS
+// ========================================
+
+// 1
+
+addBuild({
+  cpu:"Ryzen 5 9600X",
+  board:"B650M",
+  gpu:"RTX 5070 12GB",
+  ram:"16GB DDR5 6000",
+  ssd:"1TB SSD",
+  psu:"800W Bronze",
+  extras:"Líquida 240 + 7 Fans",
+  price:5920000,
+  pros:"Excelente balance general, GPU muy potente, AM5 sólida",
+  cons:"Fuente no especificada"
+});
+
+// 2
+
+addBuild({
+  cpu:"Ryzen 5 9600X",
+  board:"MSI B850-S",
+  gpu:"RTX 5070 ASUS PRIME",
+  ram:"16GB G.Skill 6000",
+  ssd:"1TB Patriot",
+  psu:"Cooler Master Gold Modular",
+  extras:"Thermalright + Cougar Panorámico",
+  price:6990000,
+  pros:"La build más refinada y premium",
+  cons:"Precio bastante elevado"
+});
+
+// 3
+
+addBuild({
+  cpu:"Ryzen 5 9600X",
+  board:"X870 Gigabyte WiFi",
+  gpu:"RTX 5060Ti 16GB",
+  ram:"16GB DDR5",
+  ssd:"1TB SSD",
+  psu:"750W Bronze",
+  extras:"Thermalright",
+  price:5720000,
+  pros:"La mejor motherboard del listado",
+  cons:"La RTX 5070 envejece mucho mejor"
+});
+
+// 4
+
+addBuild({
+  cpu:"Ryzen 7 8700F",
+  board:"MSI PRO B840-B",
+  gpu:"RTX 5070 12GB",
+  ram:"16GB DDR5",
+  ssd:"500GB SSD",
+  psu:"800W 80+",
+  extras:"Monitor MSI 144Hz + periféricos",
+  price:5780000,
+  pros:"Excelente valor total incluyendo monitor",
+  cons:"SSD corto y componentes ocultos"
+});
+
+// 5
+
+addBuild({
+  cpu:"Ryzen 7 8700F",
+  board:"B650M",
+  gpu:"RX 9060 XT 16GB",
+  ram:"16GB DDR5",
+  ssd:"1TB SSD",
+  psu:"650W Bronze",
+  extras:"4 Fans RGB",
+  price:5550000,
+  pros:"Muy buena multitarea y raster",
+  cons:"RT y DLSS inferiores"
+});
+
+// 6
+
+addBuild({
+  cpu:"Ryzen 5 7600X",
+  board:"A620M ASRock",
+  gpu:"RTX 5060Ti 16GB",
+  ram:"16GB 5600",
+  ssd:"1TB SSD",
+  psu:"750W Bronze",
+  extras:"Thermalright",
+  price:5250000,
+  pros:"Muy buena económica",
+  cons:"A620 limita upgrades"
+});
+
+// 7
+
+addBuild({
+  cpu:"Ryzen 5 9600X",
+  board:"MSI B650M",
+  gpu:"RTX 5060Ti 16GB PNY",
+  ram:"16GB DDR5 Patriot",
+  ssd:"512GB NVMe Patriot",
+  psu:"700W Bronze AZZA",
+  extras:"Líquida GameMax + Antec 5 ARGB",
+  price:5520000,
+  pros:"Muy equilibrada y con marcas reales",
+  cons:"SSD corto y PSU normalita"
+});
+
+// 8
+
+addBuild({
+  cpu:"Ryzen 5 7600X",
+  board:"B650",
+  gpu:"RTX 5060Ti 16GB",
+  ram:"16GB DDR5",
+  ssd:"480GB SSD",
+  psu:"650W Bronze",
+  extras:"Disipador de aire",
+  price:5390000,
+  pros:"Buen combo CPU/GPU",
+  cons:"Muy poca especificación real"
+});
+
+// 9
+
+addBuild({
+  cpu:"Ryzen 7 8700F",
+  board:"B650M",
+  gpu:"RTX 5060Ti 16GB",
+  ram:"16GB DDR5",
+  ssd:"480GB SSD",
+  psu:"650W Bronze",
+  extras:"4 Fans",
+  price:5650000,
+  pros:"Buen CPU multitarea",
+  cons:"Cara para la GPU"
+});
+
+// 10
+
+addBuild({
+  cpu:"Ryzen 5 7500F",
+  board:"Gigabyte B650M Gaming WiFi",
+  gpu:"RX 9060 XT 16GB",
+  ram:"16GB XPG 5600",
+  ssd:"1TB Kingston NV3",
+  psu:"650W Gold",
+  extras:"Cooler Master Elite 502",
+  price:6036000,
+  pros:"Buena PSU y board",
+  cons:"CPU flojo para el precio"
+});
+
+// 11
+
+addBuild({
+  cpu:"Ryzen 5 7600X",
+  board:"B850M WiFi6",
+  gpu:"RTX 5060Ti MSI",
+  ram:"16GB Viper",
+  ssd:"1TB Kingston NV3",
+  psu:"750W Cougar Bronze",
+  extras:"Thermalright + Cougar",
+  price:6610000,
+  pros:"Board moderna",
+  cons:"Demasiado cara para una 5060Ti"
+});
+
+// 12
+
+addBuild({
+  cpu:"Ryzen 5 4800F",
+  board:"B650M",
+  gpu:"RTX 5060Ti 16GB",
+  ram:"16GB DDR5",
+  ssd:"480GB NVMe",
+  psu:"650W Bronze",
+  extras:"4 Fans",
+  price:5350000,
+  pros:"GPU competente",
+  cons:"CPU muy dudoso"
+});
+
+</script>
+
+</body>
+</html>
