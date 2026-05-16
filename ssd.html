@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top SSD NVMe Calidad/Precio 2026</title>
+
+    <style>
+
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #2563eb;
+            --border-color: #e5e7eb;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 35px;
+        }
+
+        /* ========================== */
+        /* PODIO */
+        /* ========================== */
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 45px;
+        }
+
+        .podium-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: .2s;
+            border-top: 6px solid var(--border-color);
+            flex: 1;
+            min-width: 260px;
+            max-width: 340px;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .rank-1 {
+            order: 2;
+            min-height: 290px;
+            border-top-color: var(--gold);
+        }
+
+        .rank-2 {
+            order: 1;
+            min-height: 250px;
+            border-top-color: var(--silver);
+        }
+
+        .rank-3 {
+            order: 3;
+            min-height: 230px;
+            border-top-color: var(--bronze);
+        }
+
+        .medal {
+            font-size: 2.7rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .ssd-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .ssd-price {
+            font-size: 1.35rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .ssd-badge {
+            display: inline-block;
+            background: #eef2ff;
+            color: #3730a3;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .ssd-highlight {
+            color: #6b7280;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* ========================== */
+        /* TABLA */
+        /* ========================== */
+
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.92rem;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .price-col {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 id="main-title"></h1>
+
+    <!-- PODIO -->
+    <div class="podium-container" id="podium-ssds"></div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr id="table-headers"></tr>
+            </thead>
+
+            <tbody id="table-body"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    const title = "Top SSD NVMe Calidad/Precio 2026";
+
+    const headers = [
+        "Ranking",
+        "SSD",
+        "Precio COP",
+        "Interfaz",
+        "Velocidades",
+        "Gaming",
+        "IA / Desarrollo",
+        "Confiabilidad",
+        "Por qué destaca"
+    ];
+
+    const rows = [
+
+        [
+            "🥇",
+            "Kingston NV3 1TB",
+            "599.000",
+            "PCIe Gen4",
+            "6000 / 4000 MB/s",
+            "Excelente",
+            "Muy bueno",
+            "Alta",
+            "El SSD más inteligente para una build gamer/IA balanceada"
+        ],
+
+        [
+            "🥈",
+            "Crucial P310 1TB",
+            "717.785",
+            "PCIe Gen4",
+            "7100 MB/s",
+            "Excelente",
+            "Excelente",
+            "Muy alta",
+            "Excelente reputación, TLC y gran estabilidad"
+        ],
+
+        [
+            "🥉",
+            "WD Black SN7100 1TB",
+            "722.816",
+            "PCIe Gen4",
+            "7250 / 6900 MB/s",
+            "Excelente",
+            "Excelente",
+            "Muy alta",
+            "SSD premium gamer muy sólido y rápido"
+        ],
+
+        [
+            "4",
+            "Fikwot FN955 1TB",
+            "608.681",
+            "PCIe Gen4",
+            "7300 MB/s",
+            "Excelente",
+            "Muy bueno",
+            "Media",
+            "Muy rápido por el precio, pero marca menos consolidada"
+        ],
+
+        [
+            "5",
+            "SSD NVMe Gen4 1TB Genérico",
+            "646.726",
+            "PCIe Gen4",
+            "7300 MB/s",
+            "Excelente",
+            "Muy bueno",
+            "Media",
+            "Buen rendimiento bruto pero menor confianza de marca"
+        ],
+
+        [
+            "6",
+            "Fanxiang S501Q 1TB",
+            "570.636",
+            "PCIe Gen3",
+            "3600 MB/s",
+            "Muy bueno",
+            "Bueno",
+            "Media",
+            "Muy económico y suficiente para gaming moderno"
+        ],
+
+        [
+            "7",
+            "KingSpec 1TB Gen3",
+            "570.560",
+            "PCIe Gen3",
+            "2400 MB/s",
+            "Correcto",
+            "Limitado",
+            "Media",
+            "Solo recomendable si el presupuesto es extremadamente ajustado"
+        ],
+
+        [
+            "8",
+            "Kingston NV3 500GB",
+            "370.000",
+            "PCIe Gen4",
+            "5000 / 4000 MB/s",
+            "Correcto",
+            "Limitado",
+            "Alta",
+            "Muy pequeño para gaming AAA moderno e IA local"
+        ],
+
+        [
+            "9",
+            "Kingston PCIe 4.0 1TB",
+            "823.000",
+            "PCIe Gen4",
+            "6000 / 4000 MB/s",
+            "Excelente",
+            "Muy bueno",
+            "Alta",
+            "Demasiado caro frente al NV3 normal"
+        ],
+
+        [
+            "10",
+            "Crucial P310 Amazon 1TB",
+            "759.948",
+            "PCIe Gen4",
+            "7100 MB/s",
+            "Excelente",
+            "Excelente",
+            "Muy alta",
+            "Gran SSD, pero impuestos reducen su valor"
+        ]
+
+    ];
+
+    // ==========================
+    // TITULO
+    // ==========================
+
+    document.getElementById('main-title').innerText = title;
+
+    // ==========================
+    // PODIO
+    // ==========================
+
+    const podiumContainer = document.getElementById('podium-ssds');
+
+    rows.slice(0,3).forEach((row, index) => {
+
+        const card = document.createElement('div');
+
+        card.className = `podium-card rank-${index + 1}`;
+
+        card.innerHTML = `
+            <span class="medal">${row[0]}</span>
+
+            <div class="ssd-name">
+                ${row[1]}
+            </div>
+
+            <div class="ssd-price">
+                $${row[2]} COP
+            </div>
+
+            <div class="ssd-badge">
+                ${row[3]} | ${row[4]}
+            </div>
+
+            <div class="ssd-highlight">
+                "${row[8]}"
+            </div>
+        `;
+
+        podiumContainer.appendChild(card);
+
+    });
+
+    // ==========================
+    // HEADERS
+    // ==========================
+
+    const headerRow = document.getElementById('table-headers');
+
+    headers.forEach(header => {
+
+        const th = document.createElement('th');
+
+        th.innerText = header;
+
+        headerRow.appendChild(th);
+
+    });
+
+    // ==========================
+    // TABLA
+    // ==========================
+
+    const tableBody = document.getElementById('table-body');
+
+    rows.forEach(row => {
+
+        const tr = document.createElement('tr');
+
+        row.forEach((cellData, index) => {
+
+            const td = document.createElement('td');
+
+            td.innerText = cellData;
+
+            if(index === 0) {
+                td.className = "text-center";
+            }
+
+            if(index === 2) {
+                td.className = "price-col";
+                td.innerText = `$${cellData}`;
+            }
+
+            tr.appendChild(td);
+
+        });
+
+        tableBody.appendChild(tr);
+
+    });
+
+</script>
+
+</body>
+</html>

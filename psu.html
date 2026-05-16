@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top PSU Gamer Calidad/Precio 2026</title>
+
+    <style>
+
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #f59e0b;
+            --border-color: #e5e7eb;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 35px;
+        }
+
+        /* ========================== */
+        /* PODIO */
+        /* ========================== */
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 45px;
+        }
+
+        .podium-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: .2s;
+            border-top: 6px solid var(--border-color);
+            flex: 1;
+            min-width: 260px;
+            max-width: 340px;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .rank-1 {
+            order: 2;
+            min-height: 290px;
+            border-top-color: var(--gold);
+        }
+
+        .rank-2 {
+            order: 1;
+            min-height: 250px;
+            border-top-color: var(--silver);
+        }
+
+        .rank-3 {
+            order: 3;
+            min-height: 230px;
+            border-top-color: var(--bronze);
+        }
+
+        .medal {
+            font-size: 2.7rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .psu-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .psu-price {
+            font-size: 1.35rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .psu-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .psu-highlight {
+            color: #6b7280;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* ========================== */
+        /* TABLA */
+        /* ========================== */
+
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.92rem;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .price-col {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 id="main-title"></h1>
+
+    <!-- PODIO -->
+    <div class="podium-container" id="podium-psu"></div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr id="table-headers"></tr>
+            </thead>
+
+            <tbody id="table-body"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    const title = "Top PSU Gamer Calidad/Precio 2026";
+
+    const headers = [
+        "Ranking",
+        "Fuente",
+        "Precio COP",
+        "Potencia",
+        "Certificación",
+        "PCIe 5 / ATX 3",
+        "Confiabilidad",
+        "Modular",
+        "Por qué destaca"
+    ];
+
+    const rows = [
+
+        [
+            "🥇",
+            "Corsair RM850e 850W",
+            "490.000",
+            "850W",
+            "80+ Gold",
+            "Sí",
+            "Excelente",
+            "Sí",
+            "La mejor PSU calidad/precio premium para RTX 5060 Ti y upgrades futuros"
+        ],
+
+        [
+            "🥈",
+            "MSI MAG A750BN PCIe5",
+            "266.276",
+            "750W",
+            "80+ Bronze",
+            "Sí",
+            "Muy alta",
+            "No",
+            "Ridículamente barata para la calidad y compatibilidad moderna que ofrece"
+        ],
+
+        [
+            "🥉",
+            "Gigabyte UD PG5 V2 850W",
+            "480.000",
+            "850W",
+            "80+ Gold",
+            "Sí",
+            "Alta",
+            "No",
+            "Excelente potencia y soporte ATX 3.1 para GPUs futuras"
+        ],
+
+        [
+            "4",
+            "CORSAIR CX750",
+            "314.974",
+            "750W",
+            "80+ Bronze",
+            "No",
+            "Muy alta",
+            "No",
+            "Muy segura y estable, aunque ya vieja frente a ATX 3.0"
+        ],
+
+        [
+            "5",
+            "FSP VITA GM 1000W",
+            "494.546",
+            "1000W",
+            "80+ Gold",
+            "Sí",
+            "Muy alta",
+            "Sí",
+            "Brutal relación calidad/precio para setups extremos"
+        ],
+
+        [
+            "6",
+            "Segotep GM850",
+            "304.321",
+            "850W",
+            "80+ Gold",
+            "Sí",
+            "Alta",
+            "Sí",
+            "Sorprendentemente buena por el precio"
+        ],
+
+        [
+            "7",
+            "ASRock PRO 750G",
+            "209.209",
+            "750W",
+            "80+ Gold",
+            "Sí",
+            "Alta",
+            "No",
+            "Precio absurdamente bueno para ser Gold y ATX 3.1"
+        ],
+
+        [
+            "8",
+            "Gigabyte P650G",
+            "280.000",
+            "650W",
+            "80+ Gold",
+            "No",
+            "Media-Alta",
+            "No",
+            "Buena eficiencia pero menos preparada para futuras GPUs"
+        ],
+
+        [
+            "9",
+            "XPG Probe 700W",
+            "270.000",
+            "700W",
+            "80+ Bronze",
+            "No",
+            "Alta",
+            "No",
+            "Muy aceptable para builds económicas"
+        ],
+
+        [
+            "10",
+            "Lian Li RB 750W",
+            "360.000",
+            "750W",
+            "80+ Bronze",
+            "No",
+            "Alta",
+            "No",
+            "Marca confiable y diseño sólido"
+        ],
+
+        [
+            "11",
+            "AeroCool 750W Gold RGB",
+            "420.000",
+            "750W",
+            "80+ Gold",
+            "No",
+            "Media",
+            "No",
+            "Más enfocada en estética que calidad interna"
+        ],
+
+        [
+            "12",
+            "AeroCool Cylon 700W",
+            "300.000",
+            "700W",
+            "80+ Bronze",
+            "No",
+            "Media",
+            "No",
+            "Aceptable pero lejos de Corsair/MSI/FSP"
+        ],
+
+        [
+            "13",
+            "Rosewill VSB 750W",
+            "242.422",
+            "750W",
+            "80+ Bronze",
+            "Sí",
+            "Media-Alta",
+            "Semi",
+            "Muy barata con soporte ATX moderno"
+        ],
+
+        [
+            "14",
+            "ICEBERG Vigor 850W",
+            "380.000",
+            "850W",
+            "80+ Gold",
+            "No",
+            "Media",
+            "No",
+            "Potente pero marca menos conocida"
+        ],
+
+        [
+            "15",
+            "ARESGAME 750W",
+            "190.186",
+            "750W",
+            "80+ Bronze",
+            "No",
+            "Baja-Media",
+            "Semi",
+            "Muy económica, pero inferior en calidad eléctrica"
+        ],
+
+        [
+            "16",
+            "XPG Probe 600W",
+            "199.000",
+            "600W",
+            "80+ Bronze",
+            "No",
+            "Alta",
+            "No",
+            "Buena opción ultra económica"
+        ],
+
+        [
+            "17",
+            "ICEBERG 700-BX",
+            "280.000",
+            "700W",
+            "80+ Bronze",
+            "No",
+            "Media",
+            "No",
+            "Cumple, pero hay mejores opciones"
+        ],
+
+        [
+            "18",
+            "JYR 1000W PSU-010",
+            "580.000",
+            "1000W",
+            "80+ Gold",
+            "No",
+            "Desconocida",
+            "Sí",
+            "Muchos watts, poca reputación"
+        ],
+
+        [
+            "19",
+            "JYR 1000W PSU-009 White",
+            "580.000",
+            "1000W",
+            "80+ Gold",
+            "No",
+            "Desconocida",
+            "Sí",
+            "No recomendable frente a FSP o Corsair"
+        ],
+
+        [
+            "20",
+            "ASRock Phantom Gaming 1300W",
+            "950.000",
+            "1300W",
+            "80+ Gold",
+            "Sí",
+            "Muy alta",
+            "Sí",
+            "Overkill absoluto para tu presupuesto"
+        ]
+
+    ];
+
+    // ==========================
+    // TITULO
+    // ==========================
+
+    document.getElementById('main-title').innerText = title;
+
+    // ==========================
+    // PODIO
+    // ==========================
+
+    const podiumContainer = document.getElementById('podium-psu');
+
+    rows.slice(0,3).forEach((row, index) => {
+
+        const card = document.createElement('div');
+
+        card.className = `podium-card rank-${index + 1}`;
+
+        card.innerHTML = `
+            <span class="medal">${row[0]}</span>
+
+            <div class="psu-name">
+                ${row[1]}
+            </div>
+
+            <div class="psu-price">
+                $${row[2]} COP
+            </div>
+
+            <div class="psu-badge">
+                ${row[3]} | ${row[4]}
+            </div>
+
+            <div class="psu-highlight">
+                "${row[8]}"
+            </div>
+        `;
+
+        podiumContainer.appendChild(card);
+
+    });
+
+    // ==========================
+    // HEADERS
+    // ==========================
+
+    const headerRow = document.getElementById('table-headers');
+
+    headers.forEach(header => {
+
+        const th = document.createElement('th');
+
+        th.innerText = header;
+
+        headerRow.appendChild(th);
+
+    });
+
+    // ==========================
+    // TABLA
+    // ==========================
+
+    const tableBody = document.getElementById('table-body');
+
+    rows.forEach(row => {
+
+        const tr = document.createElement('tr');
+
+        row.forEach((cellData, index) => {
+
+            const td = document.createElement('td');
+
+            td.innerText = cellData;
+
+            if(index === 0) {
+                td.className = "text-center";
+            }
+
+            if(index === 2) {
+                td.className = "price-col";
+                td.innerText = `$${cellData}`;
+            }
+
+            tr.appendChild(td);
+
+        });
+
+        tableBody.appendChild(tr);
+
+    });
+
+</script>
+
+</body>
+</html>

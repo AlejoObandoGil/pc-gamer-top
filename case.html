@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Gabinetes Gamer 2026</title>
+
+    <style>
+
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #8b5cf6;
+            --border-color: #e5e7eb;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 35px;
+        }
+
+        /* ============================= */
+        /* PODIO */
+        /* ============================= */
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 45px;
+        }
+
+        .podium-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: .2s;
+            border-top: 6px solid var(--border-color);
+            flex: 1;
+            min-width: 260px;
+            max-width: 340px;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .rank-1 {
+            order: 2;
+            min-height: 300px;
+            border-top-color: var(--gold);
+        }
+
+        .rank-2 {
+            order: 1;
+            min-height: 260px;
+            border-top-color: var(--silver);
+        }
+
+        .rank-3 {
+            order: 3;
+            min-height: 240px;
+            border-top-color: var(--bronze);
+        }
+
+        .medal {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .case-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .case-price {
+            font-size: 1.35rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .case-badge {
+            display: inline-block;
+            background: #ede9fe;
+            color: #5b21b6;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .case-highlight {
+            color: #6b7280;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* ============================= */
+        /* TABLA */
+        /* ============================= */
+
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.92rem;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .price-col {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 id="main-title"></h1>
+
+    <!-- PODIO -->
+    <div class="podium-container" id="podium-cases"></div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr id="table-headers"></tr>
+            </thead>
+
+            <tbody id="table-body"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    const title = "Top Gabinetes Gamer Calidad/Precio 2026";
+
+    const headers = [
+        "Ranking",
+        "Gabinete",
+        "Precio COP",
+        "Ventiladores",
+        "Airflow",
+        "Estética",
+        "Compatibilidad GPU",
+        "Calidad Construcción",
+        "Por qué destaca"
+    ];
+
+    const rows = [
+
+        [
+            "🥇",
+            "Lian Li Lancool 207 RW White",
+            "360.000",
+            "4 Fans",
+            "Excelente",
+            "Premium",
+            "Excelente",
+            "Premium",
+            "El mejor gabinete overall de toda la lista"
+        ],
+
+        [
+            "🥈",
+            "Iceberg Flow X ATX",
+            "320.000",
+            "4 Fans",
+            "Excelente",
+            "Muy buena",
+            "Excelente",
+            "Muy buena",
+            "La mejor relación calidad/precio para gaming"
+        ],
+
+        [
+            "🥉",
+            "Iceberg Titan M4 ATX",
+            "359.000",
+            "6 Fans",
+            "Excelente",
+            "Excelente",
+            "Excelente",
+            "Muy buena",
+            "Excelente airflow y estética gamer moderna"
+        ],
+
+        [
+            "4",
+            "Iceberg Flow E Black",
+            "250.000",
+            "4 Fans",
+            "Muy bueno",
+            "Muy buena",
+            "Muy buena",
+            "Buena",
+            "Excelente económico con airflow correcto"
+        ],
+
+        [
+            "5",
+            "Raidmax Infinita I800",
+            "349.000",
+            "4 Fans",
+            "Bueno",
+            "Excelente",
+            "Excelente",
+            "Muy buena",
+            "La mejor estética tipo pecera"
+        ],
+
+        [
+            "6",
+            "Thermaltake View 170 TG ARGB",
+            "360.000",
+            "ARGB",
+            "Muy bueno",
+            "Premium",
+            "Excelente",
+            "Premium",
+            "Muy premium visualmente"
+        ],
+
+        [
+            "7",
+            "Lian Li V100 Mini Black",
+            "320.000",
+            "4 Fans",
+            "Muy bueno",
+            "Muy buena",
+            "Muy buena",
+            "Excelente",
+            "Excelente compacto premium"
+        ],
+
+        [
+            "8",
+            "ADATA XPG Invader",
+            "185.000",
+            "No especificado",
+            "Bueno",
+            "Sobrio",
+            "Muy buena",
+            "Muy buena",
+            "Excelente calidad/precio discreto"
+        ],
+
+        [
+            "9",
+            "Cougar Archon Vidrio Negro",
+            "260.000",
+            "3 Fans",
+            "Bueno",
+            "Buena",
+            "Muy buena",
+            "Correcta",
+            "Muy equilibrado para gaming"
+        ],
+
+        [
+            "10",
+            "Iceberg Turbo Z8",
+            "240.000",
+            "5 Fans",
+            "Bueno",
+            "Muy buena",
+            "Muy buena",
+            "Correcta",
+            "Excelente cantidad de ventiladores por precio"
+        ],
+
+        [
+            "11",
+            "JYR Mesh ATX",
+            "280.000",
+            "3 Fans",
+            "Bueno",
+            "Correcta",
+            "Muy buena",
+            "Correcta",
+            "Airflow aceptable"
+        ],
+
+        [
+            "12",
+            "ADATA XPG Defender Pro White",
+            "250.000",
+            "No especificado",
+            "Bueno",
+            "Muy buena",
+            "Muy buena",
+            "Muy buena",
+            "Muy buena estética blanca"
+        ],
+
+        [
+            "13",
+            "Aerocool Designer ATX",
+            "280.000",
+            "4 Fans",
+            "Correcto",
+            "Muy buena",
+            "Muy buena",
+            "Correcta",
+            "Mucho RGB pero airflow mediocre"
+        ],
+
+        [
+            "14",
+            "JYR Prime ATX",
+            "330.000",
+            "4 Fans",
+            "Correcto",
+            "Buena",
+            "Muy buena",
+            "Correcta",
+            "Correcto sin destacar demasiado"
+        ],
+
+        [
+            "15",
+            "JYR Diamond ATX",
+            "320.000",
+            "4 Fans",
+            "Correcto",
+            "Buena",
+            "Muy buena",
+            "Correcta",
+            "Diseño atractivo pero nada especial"
+        ],
+
+        [
+            "16",
+            "Gabinete Pecera ARS X5",
+            "280.000",
+            "5 Fans",
+            "Mediocre",
+            "Excelente",
+            "Muy buena",
+            "Correcta",
+            "Muy bonito pero airflow limitado"
+        ],
+
+        [
+            "17",
+            "Iceberg Clacius Black",
+            "180.000",
+            "1 Fan",
+            "Básico",
+            "Correcta",
+            "Buena",
+            "Correcta",
+            "Muy económico pero requiere más ventiladores"
+        ],
+
+        [
+            "18",
+            "Natilus 4 Fans ATX",
+            "260.000",
+            "4 Fans",
+            "Correcto",
+            "Buena",
+            "Muy buena",
+            "Correcta",
+            "Aceptable por el precio"
+        ],
+
+        [
+            "19",
+            "GAMDIAS ATX ARGB",
+            "228.231",
+            "4 Fans",
+            "Bueno",
+            "Muy buena",
+            "Muy buena",
+            "Correcta",
+            "Muy buena opción económica Amazon"
+        ],
+
+        [
+            "20",
+            "PCCOOLER CPS C3D510",
+            "380.411",
+            "3 Fans",
+            "Excelente",
+            "Muy buena",
+            "Excelente",
+            "Muy buena",
+            "Excelente airflow premium"
+        ],
+
+        [
+            "21",
+            "Zalman CUBIX-G",
+            "171.164",
+            "3 Fans",
+            "Correcto",
+            "Muy buena",
+            "Limitada",
+            "Correcta",
+            "Muy barato para setup compacto"
+        ],
+
+        [
+            "22",
+            "Okinos MATX ARGB",
+            "228.231",
+            "3 Fans",
+            "Bueno",
+            "Muy buena",
+            "Correcta",
+            "Correcta",
+            "Buen compacto gamer económico"
+        ]
+
+    ];
+
+    // ==========================
+    // TITULO
+    // ==========================
+
+    document.getElementById('main-title').innerText = title;
+
+    // ==========================
+    // PODIO
+    // ==========================
+
+    const podiumContainer = document.getElementById('podium-cases');
+
+    rows.slice(0,3).forEach((row, index) => {
+
+        const card = document.createElement('div');
+
+        card.className = `podium-card rank-${index + 1}`;
+
+        card.innerHTML = `
+            <span class="medal">${row[0]}</span>
+
+            <div class="case-name">
+                ${row[1]}
+            </div>
+
+            <div class="case-price">
+                $${row[2]} COP
+            </div>
+
+            <div class="case-badge">
+                ${row[3]} | ${row[4]} Airflow
+            </div>
+
+            <div class="case-highlight">
+                "${row[8]}"
+            </div>
+        `;
+
+        podiumContainer.appendChild(card);
+
+    });
+
+    // ==========================
+    // HEADERS
+    // ==========================
+
+    const headerRow = document.getElementById('table-headers');
+
+    headers.forEach(header => {
+
+        const th = document.createElement('th');
+
+        th.innerText = header;
+
+        headerRow.appendChild(th);
+
+    });
+
+    // ==========================
+    // TABLA
+    // ==========================
+
+    const tableBody = document.getElementById('table-body');
+
+    rows.forEach(row => {
+
+        const tr = document.createElement('tr');
+
+        row.forEach((cellData, index) => {
+
+            const td = document.createElement('td');
+
+            td.innerText = cellData;
+
+            if(index === 0) {
+                td.className = "text-center";
+            }
+
+            if(index === 2) {
+                td.className = "price-col";
+                td.innerText = `$${cellData}`;
+            }
+
+            tr.appendChild(td);
+
+        });
+
+        tableBody.appendChild(tr);
+
+    });
+
+</script>
+
+</body>
+</html>

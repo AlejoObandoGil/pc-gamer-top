@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top CPUs AM5 Amazon</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #ff3b30; /* Estilo AMD */
+            --border-color: #e0e0e0;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111;
+            margin-bottom: 30px;
+        }
+
+        /* --- Estilos del Podio / Top 3 --- */
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .podium-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 320px;
+            transition: transform 0.2s;
+            border-top: 5px solid var(--border-color);
+            position: relative;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Orden visual: 2do, 1ro, 3ro */
+        .rank-1 { order: 2; min-height: 260px; border-top-color: var(--gold); }
+        .rank-2 { order: 1; min-height: 220px; border-top-color: var(--silver); }
+        .rank-3 { order: 3; min-height: 200px; border-top-color: var(--bronze); }
+
+        .medal {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .cpu-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .cpu-price {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cpu-badge {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .cpu-highlight {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* --- Estilos de la Tabla General --- */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f2937;
+            color: white;
+            padding: 15px;
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .text-center { text-align: center; }
+        .price-col { font-weight: bold; color: #111; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="main-title"></h1>
+
+    <!-- Sección del Top (Podio) -->
+    <div class="podium-container" id="podium-boards"></div>
+
+    <!-- Sección de la Tabla Completa -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr id="table-headers"></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Estructura de datos idéntica a tu script de Python
+    const title = "Top CPUs AM5 Amazon";
+    
+    const headers = [
+        "Ranking", "Procesador", "Precio Amazon COP", "Núcleos/Hilos", 
+        "Arquitectura", "Gaming 1440p", "IA Local", "Consumo/Eficiencia", "Por qué destaca"
+    ];
+
+    const rows = [
+        ["🥇", "AMD Ryzen 7 7800X3D", "1,429,693", "8C / 16T", "Zen 4 X3D", "El mejor gaming CPU", "Muy bueno", "Excelente eficiencia", "La mejor experiencia gaming posible y enorme longevidad"],
+        ["🥈", "AMD Ryzen 5 9600X", "684,429", "6C / 12T", "Zen 5", "Excelente", "Muy bueno", "Muy eficiente", "El rey calidad/precio actual para gaming e IA ligera/media"],
+        ["🥉", "AMD Ryzen 7 7700X", "890,253", "8C / 16T", "Zen 4", "Excelente", "Muy bueno", "Consumo moderado", "Excelente multitarea y productividad"],
+        ["4", "AMD Ryzen 5 7600X", "616,329", "6C / 12T", "Zen 4", "Muy bueno", "Bueno", "Muy eficiente", "Sigue siendo brutal para 1440p y bastante económico"],
+        ["5", "AMD Ryzen 5 8500G", "532,630", "6C / 12T", "Zen 4 APU", "Aceptable", "Limitado", "Muy eficiente", "Solo vale la pena sin GPU dedicada"],
+        ["6", "AMD Ryzen 5 5500", "319,578", "6C / 12T", "Zen 3", "Correcto", "Limitado", "Muy eficiente", "Muy barato, pero plataforma AM4 ya envejecida"]
+    ];
+
+    // Asignar título
+    document.getElementById('main-title').innerText = title;
+
+    // Renderizar las "Boards" del Top 3 de manera visual
+    const podiumContainer = document.getElementById('podium-boards');
+    rows.slice(0, 3).forEach((row, index) => {
+        const card = document.createElement('div');
+        card.className = `podium-card rank-${index + 1}`;
+        
+        card.innerHTML = `
+            <span class="medal">${row[0]}</span>
+            <div class="cpu-name">${row[1]}</div>
+            <div class="cpu-price">$${row[2]} COP</div>
+            <span class="cpu-badge">${row[4]} | ${row[3]}</span>
+            <div class="cpu-highlight">"${row[8]}"</div>
+        `;
+        podiumContainer.appendChild(card);
+    });
+
+    // Renderizar Encabezados de la Tabla
+    const headerRow = document.getElementById('table-headers');
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.innerText = header;
+        headerRow.appendChild(th);
+    });
+
+    // Renderizar Filas de la Tabla Completa
+    const tableBody = document.getElementById('table-body');
+    rows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach((cellData, index) => {
+            const td = document.createElement('td');
+            td.innerText = cellData;
+            
+            // Centrar columnas cortas o medallas
+            if(index === 0 || index === 3) {
+                td.className = "text-center";
+            }
+            // Resaltar precio
+            if(index === 2) {
+                td.innerText = `$${cellData}`;
+                td.className = "price-col";
+            }
+            
+            tr.appendChild(td);
+        });
+        tableBody.appendChild(tr);
+    });
+</script>
+
+</body>
+</html>
