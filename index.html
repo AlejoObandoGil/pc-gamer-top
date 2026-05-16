@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PC Gamer Top</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      background:#0f172a;
+      color:#e2e8f0;
+      font-family:Arial, Helvetica, sans-serif;
+      padding:40px;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+
+    h1{
+      margin-bottom:10px;
+      font-size:48px;
+      color:#f8fafc;
+      text-align:center;
+    }
+
+    p{
+      margin-bottom:40px;
+      color:#94a3b8;
+      text-align:center;
+      font-size:18px;
+    }
+
+    .links-container{
+      display:flex;
+      gap:30px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .link-card{
+      background:#111827;
+      border:1px solid #1e293b;
+      border-radius:18px;
+      padding:40px;
+      text-decoration:none;
+      color:#e2e8f0;
+      transition:all 0.3s ease;
+      min-width:280px;
+      text-align:center;
+      box-shadow:0 0 25px rgba(0,0,0,.35);
+    }
+
+    .link-card:hover{
+      border-color:#3b82f6;
+      transform:translateY(-5px);
+      box-shadow:0 10px 40px rgba(59,130,246,.2);
+    }
+
+    .link-card h2{
+      font-size:24px;
+      margin-bottom:10px;
+      color:#f8fafc;
+    }
+
+    .link-card p{
+      font-size:14px;
+      margin-bottom:0;
+    }
+  </style>
+</head>
+<body>
+  <h1>PC Gamer Top</h1>
+  <p>Selecciona una de las siguientes opciones:</p>
+  
+  <div class="links-container">
+    <a href="top-pc-gamer.html" class="link-card">
+      <h2>Top Builds PC 2026</h2>
+      <p>Las mejores configuraciones para gaming</p>
+    </a>
+    
+    <a href="ranking-auto-pc-gamer.html" class="link-card">
+      <h2>Ranking Auto PC Gamer</h2>
+      <p>Ranking automático de componentes</p>
+    </a>
+  </div>
+</body>
+</html>
