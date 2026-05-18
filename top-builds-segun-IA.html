@@ -204,6 +204,13 @@ tr:hover{
     text-align:center;
 }
 
+.component-price{
+    color:#64748b;
+    font-size:.82rem;
+    font-weight:600;
+    margin-left:6px;
+}
+
 </style>
 </head>
 
@@ -268,34 +275,42 @@ const builds = [
     title:"Mejor Calidad/Precio",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"6 núcleos / 12 hilos • Zen 5 • hasta 5.4GHz boost • 38MB caché • 65W",
 
     gpu:"RX 9060 XT 16GB ASRock Challenger",
+    gpu_price:"1,900,000",
     gpu_specs:"16GB GDDR6 • PCIe 5.0 • excelente raster 1440p • FSR",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • 5600MT/s • CL40 • disipador aluminio • upgrade simple a 32GB",
+    ram:"Kingston Fury Beast RGB 16GB DDR5 6000 CL36",
+    ram_price:"1,019,415",
+    ram_specs:"1x16GB • 6000MT/s • CL36 • disipador aluminio RGB • upgrade simple a 32GB",
 
     board:"Gigabyte B850 Eagle WIFI6E",
+    board_price:"559,261",
     board_specs:"AM5 • DDR5 • PCIe 5.0 GPU/SSD • WiFi 6E • 3x M.2",
 
     ssd:"Kingston NV3 1TB",
+    ssd_price:"579,900",
     ssd_specs:"PCIe Gen4 x4 • hasta 6000MB/s lectura • NVMe",
 
     psu:"MSI MAG A750BN PCIe5",
+    psu_price:"266,276",
     psu_specs:"750W • 80+ Bronze • ATX 3.0 • PCIe 5.0",
 
-    cooler:"Thermalright Assassin X120",
-    cooler_specs:"4 heatpipes • ventilador PWM 120mm",
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"4 heatpipes • ventilador PWM 120mm • ARGB",
 
     case:"ADATA XPG Invader",
+    case_price:"185,000",
     case_specs:"ATX • vidrio templado • buen airflow",
 
     gaming:"Excelente",
     ia:"Buena",
     future:"Muy alta",
 
-    price:"≈ $5.10M",
+    price:"$5,762,343 COP",
 
     reason:"La build AM5 más equilibrada para jugar 1440p ultra y crecer a futuro."
 },
@@ -305,34 +320,42 @@ const builds = [
     title:"RTX IA Local",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"6C/12T • Zen 5 • hasta 5.4GHz • 65W",
 
     gpu:"RTX 5060 Ti 16GB MSI Shadow 2X",
+    gpu_price:"2,400,000",
     gpu_specs:"16GB GDDR7 • DLSS • Frame Generation • CUDA • IA local",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • 5600MT/s • disipador aluminio",
+    ram:"Kingston Fury Beast RGB 16GB DDR5 6000 CL36",
+    ram_price:"1,019,415",
+    ram_specs:"1x16GB • 6000MT/s • CL36 • disipador aluminio RGB",
 
     board:"Gigabyte B850 Eagle WIFI6E",
+    board_price:"559,261",
     board_specs:"AM5 • DDR5 • PCIe 5.0 • WiFi 6E",
 
     ssd:"Kingston NV3 1TB",
+    ssd_price:"579,900",
     ssd_specs:"Gen4 • hasta 6000MB/s",
 
     psu:"MSI MAG A750BN PCIe5",
+    psu_price:"266,276",
     psu_specs:"750W • 80+ Bronze • PCIe5 Ready",
 
-    cooler:"Thermalright Assassin X120",
-    cooler_specs:"Excelente rendimiento térmico",
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"4 heatpipes • ventilador PWM 120mm • ARGB",
 
-    case:"Iceberg Clacius",
-    case_specs:"ATX • airflow correcto",
+    case:"Iceberg Flow E Black",
+    case_price:"250,000",
+    case_specs:"ATX • 4 fans incluidos • airflow mejorado",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Muy alta",
 
-    price:"≈ $5.52M",
+    price:"$5,927,343 COP",
 
     reason:"La mejor combinación económica para IA local con CUDA y gaming moderno."
 },
@@ -342,34 +365,42 @@ const builds = [
     title:"RTX IA Local SSD 500GB",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"6C/12T • Zen 5 • hasta 5.4GHz • 65W",
 
     gpu:"RTX 5060 Ti 16GB MSI Shadow 2X",
+    gpu_price:"2,400,000",
     gpu_specs:"16GB GDDR7 • DLSS • Frame Generation • CUDA • IA local",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • 5600MT/s • CL40 • disipador aluminio",
+    ram:"Kingston Fury Beast 16GB DDR5 5600 Disipada",
+    ram_price:"760,000",
+    ram_specs:"1x16GB • 5600MT/s • disipador aluminio • Entrega Inmediata",
 
     board:"Gigabyte B850 Eagle WIFI6E",
+    board_price:"559,261",
     board_specs:"AM5 • DDR5 • PCIe 5.0 • WiFi 6E • 3x M.2",
 
     ssd:"Kingston NV3 500GB",
+    ssd_price:"370,000",
     ssd_specs:"PCIe Gen4 x4 • hasta 5000MB/s lectura • NVMe",
 
     psu:"MSI MAG A750BN PCIe5",
+    psu_price:"266,276",
     psu_specs:"750W • 80+ Bronze • ATX 3.0 • PCIe 5.0",
 
-    cooler:"Thermalright Assassin X120",
-    cooler_specs:"4 heatpipes • ventilador PWM 120mm",
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"4 heatpipes • ventilador PWM 120mm • ARGB",
 
-    case:"Iceberg Clacius",
-    case_specs:"ATX • airflow correcto",
+    case:"Iceberg Flow E Black",
+    case_price:"250,000",
+    case_specs:"ATX • 4 fans incluidos • airflow mejorado",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Alta",
 
-    price:"≈ $5.18M",
+    price:"$5,458,028 COP",
 
     reason:"La forma más barata de entrar a IA local seria con NVIDIA 16GB sin sacrificar rendimiento 1440p."
 },
@@ -379,34 +410,42 @@ const builds = [
     title:"Ultra Económica",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"Zen 5 • 6C/12T • muy eficiente",
 
     gpu:"RX 9060 XT 16GB",
+    gpu_price:"1,900,000",
     gpu_specs:"16GB GDDR6 • excelente 1440p",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • DDR5 • upgrade posterior",
+    ram:"Kingston Fury Beast RGB 16GB DDR5 6000 CL36",
+    ram_price:"1,019,415",
+    ram_specs:"1x16GB • 6000MT/s • CL36 • DDR5 • upgrade posterior",
 
-    board:"Gigabyte B650M DS3H",
+    board:"Gigabyte B850M DS3H",
+    board_price:"456,501",
     board_specs:"AM5 • Micro ATX • PCIe 5.0",
 
     ssd:"Kingston NV3 500GB",
+    ssd_price:"370,000",
     ssd_specs:"PCIe Gen4 • 5000MB/s lectura",
 
     psu:"XPG Probe 700W",
+    psu_price:"270,000",
     psu_specs:"700W • 80+ Bronze",
 
-    cooler:"Thermalright Assassin X120",
-    cooler_specs:"Muy superior al stock",
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"4 heatpipes • ventilador PWM 120mm • ARGB",
 
-    case:"Iceberg Clacius",
-    case_specs:"ATX • económico",
+    case:"Iceberg Clacius Black",
+    case_price:"180,000",
+    case_specs:"ATX • económico • 1 fan incluido",
 
     gaming:"Muy buena",
     ia:"Correcta",
     future:"Media",
 
-    price:"≈ $4.82M",
+    price:"$5,448,407 COP",
 
     reason:"La forma más barata de entrar fuerte a AM5 + 1440p."
 },
@@ -416,34 +455,42 @@ const builds = [
     title:"RTX Premium Budget",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"Zen 5 • boost 5.4GHz • 65W",
 
     gpu:"RTX 5060 Ti 16GB",
+    gpu_price:"2,500,000",
     gpu_specs:"16GB GDDR7 • DLSS 4 • CUDA",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • disipador • EXPO ready",
+    ram:"Kingston Fury Beast RGB 16GB DDR5 6000 CL36",
+    ram_price:"1,019,415",
+    ram_specs:"1x16GB • 6000MT/s • CL36 • disipador • EXPO ready",
 
     board:"MSI B850 Gaming Plus WIFI6E",
+    board_price:"570,636",
     board_specs:"VRM superior • PCIe 5.0 • M.2 Gen5",
 
     ssd:"Kingston NV3 500GB",
+    ssd_price:"370,000",
     ssd_specs:"NVMe Gen4",
 
     psu:"MSI MAG A750BN",
+    psu_price:"266,276",
     psu_specs:"750W • ATX 3.0",
 
-    cooler:"Thermalright Assassin X120",
-    cooler_specs:"120mm PWM",
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"120mm PWM • 4 heatpipes • ARGB",
 
     case:"JYR Mesh ATX",
+    case_price:"280,000",
     case_specs:"Frontal mesh • buen flujo aire",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Muy alta",
 
-    price:"≈ $5.46M",
+    price:"$5,758,818 COP",
 
     reason:"Board mucho más fuerte manteniendo presupuesto razonable."
 },
@@ -453,34 +500,42 @@ const builds = [
     title:"RX Future Upgrade",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"Zen 5 • excelente IPC",
 
     gpu:"RX 9060 XT 16GB",
+    gpu_price:"2,400,000",
     gpu_specs:"16GB VRAM • brutal raster 1440p",
 
-    ram:"Kingston Fury Beast 16GB DDR5 5600",
-    ram_specs:"1x16GB • upgrade fácil",
+    ram:"Kingston Fury Beast RGB 16GB DDR5 6000 CL36",
+    ram_price:"1,019,415",
+    ram_specs:"1x16GB • 6000MT/s • CL36 • upgrade fácil a 32GB",
 
     board:"Gigabyte X870 Eagle WIFI7",
+    board_price:"646,726",
     board_specs:"USB4 • WiFi 7 • PCIe 5.0",
 
     ssd:"Kingston NV3 500GB",
+    ssd_price:"370,000",
     ssd_specs:"Gen4 NVMe",
 
     psu:"MSI MAG A750BN",
+    psu_price:"266,276",
     psu_specs:"ATX 3.0 • PCIe 5",
 
-    cooler:"Thermalright Phantom Spirit 120SE",
+    cooler:"Thermalright Phantom Spirit 120 SE",
+    cooler_price:"136,581",
     cooler_specs:"Doble torre • 7 heatpipes",
 
-    case:"Iceberg Flow E",
-    case_specs:"4 fans incluidos",
+    case:"Iceberg Flow E Black",
+    case_price:"250,000",
+    case_specs:"ATX • 4 fans incluidos • airflow mejorado",
 
     gaming:"Excelente",
     ia:"Buena",
     future:"Extrema",
 
-    price:"≈ $5.29M",
+    price:"$5,773,427 COP",
 
     reason:"Plataforma premium lista para futuros Ryzen potentes."
 },
@@ -490,34 +545,42 @@ const builds = [
     title:"Full NVIDIA Balance",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"6C/12T • Zen 5",
 
     gpu:"RTX 5060 Ti 16GB",
+    gpu_price:"2,500,000",
     gpu_specs:"DLSS • CUDA • excelente eficiencia",
 
     ram:"PUSKILL 32GB DDR5 6000 CL30",
+    ram_price:"1,366,157",
     ram_specs:"2x16GB • 6000MT/s • CL30 • AMD EXPO",
 
     board:"Gigabyte B850 Eagle WIFI6E",
+    board_price:"559,261",
     board_specs:"AM5 • PCIe 5.0",
 
     ssd:"Kingston NV3 1TB",
+    ssd_price:"579,900",
     ssd_specs:"Gen4 • 6000MB/s",
 
     psu:"Corsair RM850e",
+    psu_price:"490,000",
     psu_specs:"850W • 80+ Gold • modular • PCIe 5",
 
     cooler:"Thermalright Peerless Assassin 120 SE",
+    cooler_price:"125,168",
     cooler_specs:"Doble torre • 6 heatpipes",
 
     case:"Lian Li Lancool 207",
+    case_price:"360,000",
     case_specs:"Excelente airflow • premium",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Extrema",
 
-    price:"≈ $6.45M",
+    price:"$6,664,915 COP",
 
     reason:"Build mucho más premium para IA local seria y upgrades largos."
 },
@@ -527,34 +590,42 @@ const builds = [
     title:"Top Gaming AMD",
 
     cpu:"Ryzen 7 7800X3D",
+    cpu_price:"1,429,693",
     cpu_specs:"8C/16T • 3D V-Cache • mejor gaming CPU",
 
     gpu:"RX 9060 XT 16GB",
+    gpu_price:"2,400,000",
     gpu_specs:"16GB GDDR6 • excelente raster",
 
     ram:"PUSKILL 32GB DDR5 6000 CL30",
+    ram_price:"1,366,157",
     ram_specs:"2x16GB • low latency",
 
     board:"MSI B850 Gaming Plus",
+    board_price:"570,636",
     board_specs:"VRM fuerte • PCIe 5.0",
 
     ssd:"WD Black SN7100 1TB",
+    ssd_price:"722,816",
     ssd_specs:"7250MB/s lectura",
 
     psu:"Corsair RM850e",
+    psu_price:"490,000",
     psu_specs:"850W Gold modular",
 
-    cooler:"Thermalright Phantom Spirit 120",
-    cooler_specs:"7 heatpipes",
+    cooler:"Thermalright Phantom Spirit 120 SE",
+    cooler_price:"136,581",
+    cooler_specs:"Doble torre • 7 heatpipes",
 
     case:"Lian Li Lancool 207",
+    case_price:"360,000",
     case_specs:"Airflow premium",
 
     gaming:"Excelente",
     ia:"Muy buena",
     future:"Extrema",
 
-    price:"≈ $7.00M",
+    price:"$7,475,883 COP",
 
     reason:"Gaming brutal en 1440p y preparado para GPUs futuras."
 },
@@ -564,34 +635,42 @@ const builds = [
     title:"AM5 Creator IA",
 
     cpu:"Ryzen 9 9900X",
+    cpu_price:null,
     cpu_specs:"12 núcleos / 24 hilos • Zen 5",
 
     gpu:"RTX 5060 Ti 16GB",
+    gpu_price:"2,500,000",
     gpu_specs:"CUDA • IA local • DLSS",
 
     ram:"PUSKILL 32GB DDR5 6000",
+    ram_price:"1,366,157",
     ram_specs:"2x16GB • CL30",
 
     board:"ASUS TUF X870 PLUS WIFI",
+    board_price:"715,246",
     board_specs:"USB4 • WiFi 7 • VRM premium",
 
     ssd:"Crucial P310 1TB",
+    ssd_price:"717,785",
     ssd_specs:"7100MB/s • Gen4",
 
     psu:"FSP VITA GM 1000W",
+    psu_price:"494,546",
     psu_specs:"80+ Gold • modular",
 
-    cooler:"Thermalright Peerless Assassin 140",
-    cooler_specs:"Doble torre premium",
+    cooler:"Thermalright Peerless Assassin 140 SE",
+    cooler_price:"163,213",
+    cooler_specs:"Doble torre premium • 6 heatpipes",
 
-    case:"Thermaltake View 170 TG",
-    case_specs:"Vidrio templado • airflow",
+    case:"Thermaltake View 170 TG ARGB",
+    case_price:"360,000",
+    case_specs:"Vidrio templado • airflow • ARGB",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Extrema",
 
-    price:"≈ $8.20M",
+    price:"$7,617,000 COP",
 
     reason:"Pensada para productividad pesada, IA local y multitarea."
 },
@@ -601,34 +680,42 @@ const builds = [
     title:"Best Looking Build",
 
     cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
     cpu_specs:"Zen 5 • eficiente",
 
     gpu:"RTX 5060 Ti 16GB",
+    gpu_price:"2,500,000",
     gpu_specs:"16GB GDDR7",
 
     ram:"Gigastone 32GB DDR5 6000 White",
+    ram_price:"1,327,732",
     ram_specs:"2x16GB • RGB • EXPO",
 
-    board:"ASRock X870 Challenger White",
-    board_specs:"White edition • WiFi 7",
+    board:"ASRock X870 Pro RS WiFi",
+    board_price:"684,771",
+    board_specs:"White edition • WiFi 7 • 4x M.2",
 
     ssd:"WD Black SN7100 1TB",
+    ssd_price:"722,816",
     ssd_specs:"7250MB/s",
 
     psu:"Segotep GM850",
+    psu_price:"304,321",
     psu_specs:"850W Gold modular",
 
-    cooler:"Thermalright Peerless Assassin White",
-    cooler_specs:"ARGB • dual tower",
+    cooler:"Thermalright Peerless Assassin 120 SE ARGB Blanco",
+    cooler_price:"151,800",
+    cooler_specs:"ARGB • dual tower • blanco",
 
-    case:"Pecera ARS Fans X5",
+    case:"Gabinete Pecera ARS X5",
+    case_price:"280,000",
     case_specs:"Tipo pecera • 5 fans",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Muy alta",
 
-    price:"≈ $6.60M",
+    price:"$6,655,869 COP",
 
     reason:"Build estética blanca/panorama muy fuerte para gaming e IA."
 },
@@ -638,39 +725,110 @@ const builds = [
     title:"Top Gama Absoluta",
 
     cpu:"Ryzen 9 9950X3D",
+    cpu_price:null,
     cpu_specs:"16C/32T • 3D V-Cache • flagship",
 
     gpu:"RTX 5060 Ti 16GB",
+    gpu_price:"2,500,000",
     gpu_specs:"DLSS • CUDA",
 
-    ram:"32GB DDR5 6000 CL30",
+    ram:"PUSKILL 32GB DDR5 6000 CL30",
+    ram_price:"1,366,157",
     ram_specs:"2x16GB • EXPO",
 
-    board:"MSI X870E Gaming Plus",
-    board_specs:"PCIe 5.0 • USB4 • WiFi 7",
+    board:"MSI MAG B850 Tomahawk MAX WiFi",
+    board_price:"760,861",
+    board_specs:"PCIe 5.0 • USB4 • WiFi 7 • VRM extremo",
 
     ssd:"Crucial P310 1TB",
+    ssd_price:"717,785",
     ssd_specs:"7100MB/s",
 
     psu:"FSP VITA GM 1000W",
+    psu_price:"494,546",
     psu_specs:"ATX 3.1 • Gold modular",
 
-    cooler:"Thermalright Peerless Assassin 140",
-    cooler_specs:"High-end air cooler",
+    cooler:"Thermalright Peerless Assassin 140 SE",
+    cooler_price:"163,213",
+    cooler_specs:"High-end air cooler • 6 heatpipes",
 
     case:"Lian Li Lancool 207",
+    case_price:"360,000",
     case_specs:"Premium airflow",
 
     gaming:"Excelente",
     ia:"Excelente",
     future:"Extrema",
 
-    price:"≈ $10M+",
+    price:"$9,363,000 COP",
 
     reason:"Build exageradamente poderosa para gaming extremo y productividad."
+},
+
+{
+    rank:"12",
+    title:"Compacta mATX WiFi",
+
+    cpu:"AMD Ryzen 5 9600X",
+    cpu_price:"684,429",
+    cpu_specs:"6C/12T • Zen 5 • hasta 5.4GHz • 65W",
+
+    gpu:"RX 9060 XT 16GB",
+    gpu_price:"2,400,000",
+    gpu_specs:"16GB GDDR6 • excelente raster 1440p",
+
+    ram:"Patriot Viper Elite 5 16GB DDR5 6000 CL30",
+    ram_price:"735,000",
+    ram_specs:"1x16GB • 6000MT/s • CL30 • AMD EXPO",
+
+    board:"ASRock B850M-X WiFi AM5",
+    board_price:"550,000",
+    board_specs:"AM5 • mATX • DDR5 • WiFi integrado • PCIe 4.0",
+
+    ssd:"Kingston NV3 500GB",
+    ssd_price:"370,000",
+    ssd_specs:"PCIe Gen4 x4 • hasta 5000MB/s lectura • NVMe",
+
+    psu:"XPG Probe 700W",
+    psu_price:"270,000",
+    psu_specs:"700W • 80+ Bronze",
+
+    cooler:"Thermalright Assassin X120 Refined SE",
+    cooler_price:"68,062",
+    cooler_specs:"4 heatpipes • ventilador PWM 120mm • ARGB",
+
+    case:"Okinos MATX ARGB",
+    case_price:"228,231",
+    case_specs:"Micro ATX • 3 fans • compacto gamer económico",
+
+    gaming:"Excelente",
+    ia:"Buena",
+    future:"Alta",
+
+    price:"$5,305,722 COP",
+
+    reason:"Build compacta mATX con WiFi integrado, ideal para espacios reducidos sin sacrificar rendimiento AM5."
 }
 
 ];
+
+// ========================================
+// CALCULO AUTOMATICO DE PRECIOS
+// ========================================
+
+function parsePrice(str){
+  if(!str) return 0;
+  return parseInt(str.replace(/,/g, ''), 10) || 0;
+}
+
+function calculateBuildPrice(build){
+  const fields = ['cpu_price','gpu_price','ram_price','board_price','ssd_price','psu_price','cooler_price','case_price'];
+  let total = 0;
+  fields.forEach(field => {
+    total += parsePrice(build[field]);
+  });
+  return total;
+}
 
 // Renderizar Podio
 const podium = document.querySelector('.podium');
@@ -680,17 +838,17 @@ builds.slice(0, 3).forEach((build, index) => {
     card.innerHTML = `
         <span class="medal">${build.rank}</span>
         <div class="build-title">${build.title}</div>
-        <div class="price">${build.price}</div>
+        <div class="price">$${calculateBuildPrice(build).toLocaleString('es-CO')} COP</div>
         <div class="badge">${build.gaming} Gaming • ${build.ia} IA</div>
         <div class="specs">
-            <div><strong>CPU:</strong> ${build.cpu}<br><small>${build.cpu_specs}</small></div>
-            <div><strong>GPU:</strong> ${build.gpu}<br><small>${build.gpu_specs}</small></div>
-            <div><strong>RAM:</strong> ${build.ram}<br><small>${build.ram_specs}</small></div>
-            <div><strong>Board:</strong> ${build.board}<br><small>${build.board_specs}</small></div>
-            <div><strong>SSD:</strong> ${build.ssd}<br><small>${build.ssd_specs}</small></div>
-            <div><strong>PSU:</strong> ${build.psu}<br><small>${build.psu_specs}</small></div>
-            <div><strong>Cooler:</strong> ${build.cooler}<br><small>${build.cooler_specs}</small></div>
-            <div><strong>Case:</strong> ${build.case}<br><small>${build.case_specs}</small></div>
+            <div><strong>CPU:</strong> ${build.cpu}${build.cpu_price ? ` <span class="component-price">$${build.cpu_price} COP</span>` : ''}<br><small>${build.cpu_specs}</small></div>
+            <div><strong>GPU:</strong> ${build.gpu}${build.gpu_price ? ` <span class="component-price">$${build.gpu_price} COP</span>` : ''}<br><small>${build.gpu_specs}</small></div>
+            <div><strong>RAM:</strong> ${build.ram}${build.ram_price ? ` <span class="component-price">$${build.ram_price} COP</span>` : ''}<br><small>${build.ram_specs}</small></div>
+            <div><strong>Board:</strong> ${build.board}${build.board_price ? ` <span class="component-price">$${build.board_price} COP</span>` : ''}<br><small>${build.board_specs}</small></div>
+            <div><strong>SSD:</strong> ${build.ssd}${build.ssd_price ? ` <span class="component-price">$${build.ssd_price} COP</span>` : ''}<br><small>${build.ssd_specs}</small></div>
+            <div><strong>PSU:</strong> ${build.psu}${build.psu_price ? ` <span class="component-price">$${build.psu_price} COP</span>` : ''}<br><small>${build.psu_specs}</small></div>
+            <div><strong>Cooler:</strong> ${build.cooler}${build.cooler_price ? ` <span class="component-price">$${build.cooler_price} COP</span>` : ''}<br><small>${build.cooler_specs}</small></div>
+            <div><strong>Case:</strong> ${build.case}${build.case_price ? ` <span class="component-price">$${build.case_price} COP</span>` : ''}<br><small>${build.case_specs}</small></div>
         </div>
         <div class="highlight">${build.reason}</div>
     `;
@@ -703,16 +861,16 @@ builds.forEach(build => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td class="center">${build.rank}</td>
-        <td><strong>${build.title}</strong></td>
-        <td>${build.cpu}<br><small>${build.cpu_specs}</small></td>
-        <td>${build.gpu}<br><small>${build.gpu_specs}</small></td>
-        <td>${build.ram}<br><small>${build.ram_specs}</small></td>
-        <td>${build.board}<br><small>${build.board_specs}</small></td>
-        <td>${build.ssd}<br><small>${build.ssd_specs}</small></td>
+        <td><strong>${build.title}</strong><br><small class="component-price">$${calculateBuildPrice(build).toLocaleString('es-CO')} COP</small></td>
+        <td>${build.cpu}<br><small>${build.cpu_specs}</small>${build.cpu_price ? `<br><small class="component-price">$${build.cpu_price} COP</small>` : ''}</td>
+        <td>${build.gpu}<br><small>${build.gpu_specs}</small>${build.gpu_price ? `<br><small class="component-price">$${build.gpu_price} COP</small>` : ''}</td>
+        <td>${build.ram}<br><small>${build.ram_specs}</small>${build.ram_price ? `<br><small class="component-price">$${build.ram_price} COP</small>` : ''}</td>
+        <td>${build.board}<br><small>${build.board_specs}</small>${build.board_price ? `<br><small class="component-price">$${build.board_price} COP</small>` : ''}</td>
+        <td>${build.ssd}<br><small>${build.ssd_specs}</small>${build.ssd_price ? `<br><small class="component-price">$${build.ssd_price} COP</small>` : ''}</td>
         <td class="${build.gaming === 'Excelente' ? 'good' : 'mid'}">${build.gaming}</td>
         <td class="${build.ia === 'Excelente' ? 'good' : build.ia === 'Buena' ? 'mid' : ''}">${build.ia}</td>
         <td class="${build.future === 'Extrema' || build.future === 'Muy alta' ? 'good' : 'mid'}">${build.future}</td>
-        <td class="price-col">${build.price}</td>
+        <td class="price-col">$${calculateBuildPrice(build).toLocaleString('es-CO')} COP</td>
         <td>${build.reason}</td>
     `;
     tbody.appendChild(tr);
