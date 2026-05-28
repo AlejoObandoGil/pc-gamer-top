@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏆 Top Builds Gaming 2026</title>
+  <link rel="stylesheet" href="algorithm.css">
+</head>
+<body>
+
+<a href="../../../index.html" class="back-btn">← Volver al Inicio</a>
+<h1>🏆 Top Builds Gaming 2026</h1>
+
+<p class="subtitle">
+Ranking automático basado en:
+GPU, CPU, motherboard, RAM, SSD, PSU, refrigeración,
+longevidad AM5 y calidad/precio.
+</p>
+
+<button class="create-build-btn" id="btn-create">+ Crear Build</button>
+<button class="clear-builds-btn" id="btn-clear">Limpiar mis builds</button>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Crear Nueva Build</h2>
+      <button class="modal-close" id="btn-close-modal">&times;</button>
+    </div>
+    <div class="form-group"><label>CPU</label><select id="sel-cpu"></select><div class="component-info" id="info-cpu"></div></div>
+    <div class="form-group"><label>GPU</label><select id="sel-gpu"></select><div class="component-info" id="info-gpu"></div></div>
+    <div class="form-group"><label>Motherboard</label><select id="sel-board"></select><div class="component-info" id="info-board"></div></div>
+    <div class="form-group"><label>RAM</label><select id="sel-ram"></select><div class="component-info" id="info-ram"></div></div>
+    <div class="form-group"><label>SSD</label><select id="sel-ssd"></select><div class="component-info" id="info-ssd"></div></div>
+    <div class="form-group"><label>Fuente de Poder</label><select id="sel-psu"></select><div class="component-info" id="info-psu"></div></div>
+    <div class="form-group"><label>Cooler / Refrigeracion</label><select id="sel-cooler"></select><div class="component-info" id="info-cooler"></div></div>
+    <div class="form-group"><label>Gabinete</label><select id="sel-case"></select><div class="component-info" id="info-case"></div></div>
+    <div class="total-price" id="total-price">Total: $0 COP</div>
+    <div class="form-group"><label>Pros (opcional)</label><textarea id="input-pros" placeholder="Ventajas de esta build..."></textarea></div>
+    <div class="form-group"><label>Contras (opcional)</label><textarea id="input-cons" placeholder="Desventajas de esta build..."></textarea></div>
+    <button class="btn-primary" id="btn-create-build">Calcular y Crear Build</button>
+    <button class="btn-secondary" id="btn-cancel">Cerrar</button>
+  </div>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>CPU</th>
+        <th>Board</th>
+        <th>GPU</th>
+        <th>RAM</th>
+        <th>SSD</th>
+        <th>Fuente</th>
+        <th>Extras</th>
+        <th>Precio</th>
+        <th>Score</th>
+        <th>Categoría</th>
+        <th>Pros</th>
+        <th>Contras</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script type="module" src="algorithm.js"></script>
+
+</body>
+</html>

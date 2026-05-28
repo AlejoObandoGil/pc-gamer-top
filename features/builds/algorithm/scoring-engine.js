@@ -1,205 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+/**
+ * Scoring Engine v1.5 - Algoritmo de cálculo de scores para builds de PC
+ * Módulo reutilizable para calcular la calidad de una build basada en sus componentes
+ */
 
-<title>🏆 Top Builds Gaming 2026</title>
-
-<style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  background:#0f172a;
-  color:white;
-  font-family:Arial, Helvetica, sans-serif;
-  padding:40px;
-}
-
-h1{
-  font-size:42px;
-  margin-bottom:10px;
-}
-
-.subtitle{
-  color:#94a3b8;
-  margin-bottom:30px;
-}
-
-.back-btn{
-  display:inline-block;
-  background:#2563eb;
-  color:white;
-  padding:10px 20px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
-  margin-bottom:20px;
-  transition:all 0.3s ease;
-}
-
-.back-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-}
-
-.table-container{
-  overflow-x:auto;
-  border-radius:18px;
-  border:1px solid #1e293b;
-  background:#111827;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:1600px;
-}
-
-th, td{
-  padding:16px;
-  text-align:left;
-  border-bottom:1px solid #1e293b;
-  vertical-align:top;
-}
-
-th{
-  background:#1e293b;
-  color:#cbd5e1;
-  font-size:14px;
-  text-transform:uppercase;
-}
-
-tr:hover{
-  background:#172033;
-}
-
-.rank{
-  font-size:24px;
-  font-weight:bold;
-}
-
-.price{
-  color:#38bdf8;
-  font-weight:bold;
-}
-
-.score{
-  color:#86efac;
-  font-weight:bold;
-  font-size:18px;
-}
-
-.good{
-  color:#86efac;
-}
-
-.bad{
-  color:#fca5a5;
-}
-
-.tag{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.best{
-  background:#14532d;
-  color:#bbf7d0;
-}
-
-.premium{
-  background:#312e81;
-  color:#c7d2fe;
-}
-
-.future{
-  background:#3f3f46;
-  color:#e4e4e7;
-}
-
-.value{
-  background:#78350f;
-  color:#fde68a;
-}
-
-</style>
-</head>
-
-<body>
-
-<a href="index.html" class="back-btn">← Volver al Inicio</a>
-<h1>🏆 Top Builds Gaming 2026</h1>
-
-<p class="subtitle">
-Ranking automático basado en:
-GPU, CPU, motherboard, RAM, SSD, PSU, refrigeración,
-longevidad AM5 y calidad/precio.
-</p>
-
-<div class="table-container">
-
-<table>
-
-<thead>
-<tr>
-  <th>Rank</th>
-  <th>CPU</th>
-  <th>Board</th>
-  <th>GPU</th>
-  <th>RAM</th>
-  <th>SSD</th>
-  <th>Fuente</th>
-  <th>Extras</th>
-  <th>Precio</th>
-  <th>Score</th>
-  <th>Categoría</th>
-  <th>Pros</th>
-  <th>Contras</th>
-</tr>
-</thead>
-
-<tbody id="tbody"></tbody>
-
-</table>
-
-</div>
-
-<script>
-
-// ========================================
-// BUILDS
-// ========================================
-
-const builds = [];
-
-// ========================================
-// AGREGAR BUILD
-// ========================================
-
-function addBuild(build){
-
-  build.score = calculateScore(build);
-
-  builds.push(build);
-
-  builds.sort((a,b)=> b.score - a.score);
-
-  renderTable();
-}
-
-// ========================================
-// HELPER FUNCTIONS - COMPONENT SCORES
-// ========================================
-
+/**
+ * Calcula el score de una CPU basado en su nombre
+ * @param {string} cpu - Nombre de la CPU
+ * @returns {number} Score de la CPU (30-115 puntos)
+ */
 function getCPUScore(cpu){
   // Gama Alta (100-120 puntos base)
   if(cpu.includes("9950") || cpu.includes("9900") || cpu.includes("9800X3D")) return 115;
@@ -224,6 +32,11 @@ function getCPUScore(cpu){
   return 30; // Default para CPUs no reconocidas
 }
 
+/**
+ * Calcula el score de una GPU basado en su nombre
+ * @param {string} gpu - Nombre de la GPU
+ * @returns {number} Score de la GPU (50-175 puntos)
+ */
 function getGPUScore(gpu){
   // Gama Ultra-Alta (150-180 puntos base)
   if(gpu.includes("5090")) return 175;
@@ -251,6 +64,11 @@ function getGPUScore(gpu){
   return 50; // Default para GPUs no reconocidas
 }
 
+/**
+ * Calcula el score de una motherboard basado en su nombre
+ * @param {string} board - Nombre de la motherboard
+ * @returns {number} Score de la board (15-50 puntos)
+ */
 function getBoardScore(board){
   // Gama Alta (45-55 puntos base)
   if(board.includes("X870E") || board.includes("X870")) return 50;
@@ -271,6 +89,11 @@ function getBoardScore(board){
   return 20; // Default para boards no reconocidas
 }
 
+/**
+ * Calcula el score de RAM basado en su nombre
+ * @param {string} ram - Nombre de la RAM
+ * @returns {number} Score de la RAM (5-35 puntos aprox)
+ */
 function getRAMScore(ram){
   let score = 0;
   
@@ -302,6 +125,11 @@ function getRAMScore(ram){
   return score;
 }
 
+/**
+ * Calcula el score de un SSD basado en su nombre
+ * @param {string} ssd - Nombre del SSD
+ * @returns {number} Score del SSD (5-35 puntos aprox)
+ */
 function getSSDScore(ssd){
   let score = 0;
   
@@ -324,6 +152,11 @@ function getSSDScore(ssd){
   return score;
 }
 
+/**
+ * Calcula el score de una fuente de poder basado en su nombre
+ * @param {string} psu - Nombre de la PSU
+ * @returns {number} Score de la PSU (-8 a 60 puntos aprox)
+ */
 function getPSUScore(psu){
   let score = 0;
   
@@ -355,6 +188,11 @@ function getPSUScore(psu){
   return score;
 }
 
+/**
+ * Calcula el score de refrigeración basado en el texto de extras
+ * @param {string} extras - Texto que contiene información de refrigeración
+ * @returns {number} Score de refrigeración (0-18 puntos)
+ */
 function getCoolingScore(extras){
   let score = 0;
   const extrasLower = extras.toLowerCase();
@@ -372,6 +210,11 @@ function getCoolingScore(extras){
   return score;
 }
 
+/**
+ * Calcula el score del gabinete basado en el texto de extras
+ * @param {string} extras - Texto que contiene información del case
+ * @returns {number} Score del case (0-8 puntos)
+ */
 function getCaseScore(extras){
   let score = 0;
   
@@ -385,10 +228,11 @@ function getCaseScore(extras){
   return score;
 }
 
-// ========================================
-// SCORE ENGINE v1.5
-// ========================================
-
+/**
+ * Calcula el score total de una build usando el algoritmo v1.5
+ * @param {Object} build - Objeto con propiedades: cpu, gpu, board, ram, ssd, psu, extras, price
+ * @returns {number} Score total de la build (redondeado)
+ */
 function calculateScore(build){
   
   // 1. Calcular puntos base por componente
@@ -430,10 +274,11 @@ function calculateScore(build){
   return Math.round(weightedScore + valueScore + penalty + budgetBonus);
 }
 
-// ========================================
-// CATEGORY
-// ========================================
-
+/**
+ * Determina la categoría de una build basado en su score
+ * @param {number} score - Score de la build
+ * @returns {Object} Objeto con propiedades text (nombre categoría) y class (clase CSS)
+ */
 function getCategory(score){
 
   if(score >= 400){
@@ -470,258 +315,16 @@ function getCategory(score){
   };
 }
 
-// ========================================
-// RENDER TABLE
-// ========================================
-
-function renderTable(){
-
-  const tbody = document.getElementById("tbody");
-
-  tbody.innerHTML = "";
-
-  builds.forEach((build,index)=>{
-
-    let medal = index + 1;
-
-    if(index === 0) medal = "🥇";
-    if(index === 1) medal = "🥈";
-    if(index === 2) medal = "🥉";
-
-    const category = getCategory(build.score);
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td class="rank">${medal}</td>
-
-        <td>${build.cpu}</td>
-
-        <td>${build.board}</td>
-
-        <td>${build.gpu}</td>
-
-        <td>${build.ram}</td>
-
-        <td>${build.ssd}</td>
-
-        <td>${build.psu}</td>
-
-        <td>${build.extras}</td>
-
-        <td class="price">
-          $${build.price.toLocaleString("es-CO")}
-        </td>
-
-        <td class="score">
-          ${build.score}
-        </td>
-
-        <td>
-          <span class="tag ${category.class}">
-            ${category.text}
-          </span>
-        </td>
-
-        <td class="good">
-          ${build.pros}
-        </td>
-
-        <td class="bad">
-          ${build.cons}
-        </td>
-
-      </tr>
-    `;
-  });
-
-}
-
-// ========================================
-// BUILDS
-// ========================================
-
-// 1
-
-addBuild({
-  cpu:"Ryzen 5 9600X",
-  board:"B650M",
-  gpu:"RTX 5070 12GB",
-  ram:"16GB DDR5 6000",
-  ssd:"1TB SSD",
-  psu:"800W Bronze",
-  extras:"Líquida 240 + 7 Fans",
-  price:5920000,
-  pros:"Excelente balance general, GPU muy potente, AM5 sólida",
-  cons:"Fuente no especificada"
-});
-
-// 2
-
-addBuild({
-  cpu:"Ryzen 5 9600X",
-  board:"MSI B850-S",
-  gpu:"RTX 5070 ASUS PRIME",
-  ram:"16GB G.Skill 6000",
-  ssd:"1TB Patriot",
-  psu:"Cooler Master Gold Modular",
-  extras:"Thermalright + Cougar Panorámico",
-  price:6990000,
-  pros:"La build más refinada y premium",
-  cons:"Precio bastante elevado"
-});
-
-// 3
-
-addBuild({
-  cpu:"Ryzen 5 9600X",
-  board:"X870 Gigabyte WiFi",
-  gpu:"RTX 5060Ti 16GB",
-  ram:"16GB DDR5",
-  ssd:"1TB SSD",
-  psu:"750W Bronze",
-  extras:"Thermalright",
-  price:5720000,
-  pros:"La mejor motherboard del listado",
-  cons:"La RTX 5070 envejece mucho mejor"
-});
-
-// 4
-
-addBuild({
-  cpu:"Ryzen 7 8700F",
-  board:"MSI PRO B840-B",
-  gpu:"RTX 5070 12GB",
-  ram:"16GB DDR5",
-  ssd:"500GB SSD",
-  psu:"800W 80+",
-  extras:"Monitor MSI 144Hz + periféricos",
-  price:5780000,
-  pros:"Excelente valor total incluyendo monitor",
-  cons:"SSD corto y componentes ocultos"
-});
-
-// 5
-
-addBuild({
-  cpu:"Ryzen 7 8700F",
-  board:"B650M",
-  gpu:"RX 9060 XT 16GB",
-  ram:"16GB DDR5",
-  ssd:"1TB SSD",
-  psu:"650W Bronze",
-  extras:"4 Fans RGB",
-  price:5550000,
-  pros:"Muy buena multitarea y raster",
-  cons:"RT y DLSS inferiores"
-});
-
-// 6
-
-addBuild({
-  cpu:"Ryzen 5 7600X",
-  board:"A620M ASRock",
-  gpu:"RTX 5060Ti 16GB",
-  ram:"16GB 5600",
-  ssd:"1TB SSD",
-  psu:"750W Bronze",
-  extras:"Thermalright",
-  price:5250000,
-  pros:"Muy buena económica",
-  cons:"A620 limita upgrades"
-});
-
-// 7
-
-addBuild({
-  cpu:"Ryzen 5 9600X",
-  board:"MSI B650M",
-  gpu:"RTX 5060Ti 16GB PNY",
-  ram:"16GB DDR5 Patriot",
-  ssd:"512GB NVMe Patriot",
-  psu:"700W Bronze AZZA",
-  extras:"Líquida GameMax + Antec 5 ARGB",
-  price:5520000,
-  pros:"Muy equilibrada y con marcas reales",
-  cons:"SSD corto y PSU normalita"
-});
-
-// 8
-
-addBuild({
-  cpu:"Ryzen 5 7600X",
-  board:"B650",
-  gpu:"RTX 5060Ti 16GB",
-  ram:"16GB DDR5",
-  ssd:"480GB SSD",
-  psu:"650W Bronze",
-  extras:"Disipador de aire",
-  price:5390000,
-  pros:"Buen combo CPU/GPU",
-  cons:"Muy poca especificación real"
-});
-
-// 9
-
-addBuild({
-  cpu:"Ryzen 7 8700F",
-  board:"B650M",
-  gpu:"RTX 5060Ti 16GB",
-  ram:"16GB DDR5",
-  ssd:"480GB SSD",
-  psu:"650W Bronze",
-  extras:"4 Fans",
-  price:5650000,
-  pros:"Buen CPU multitarea",
-  cons:"Cara para la GPU"
-});
-
-// 10
-
-addBuild({
-  cpu:"Ryzen 5 7500F",
-  board:"Gigabyte B650M Gaming WiFi",
-  gpu:"RX 9060 XT 16GB",
-  ram:"16GB XPG 5600",
-  ssd:"1TB Kingston NV3",
-  psu:"650W Gold",
-  extras:"Cooler Master Elite 502",
-  price:6036000,
-  pros:"Buena PSU y board",
-  cons:"CPU flojo para el precio"
-});
-
-// 11
-
-addBuild({
-  cpu:"Ryzen 5 7600X",
-  board:"B850M WiFi6",
-  gpu:"RTX 5060Ti MSI",
-  ram:"16GB Viper",
-  ssd:"1TB Kingston NV3",
-  psu:"750W Cougar Bronze",
-  extras:"Thermalright + Cougar",
-  price:6610000,
-  pros:"Board moderna",
-  cons:"Demasiado cara para una 5060Ti"
-});
-
-// 12
-
-addBuild({
-  cpu:"Ryzen 5 4800F",
-  board:"B650M",
-  gpu:"RTX 5060Ti 16GB",
-  ram:"16GB DDR5",
-  ssd:"480GB NVMe",
-  psu:"650W Bronze",
-  extras:"4 Fans",
-  price:5350000,
-  pros:"GPU competente",
-  cons:"CPU muy dudoso"
-});
-
-</script>
-
-</body>
-</html>
+// Exportar todas las funciones como módulo ES6
+export {
+  getCPUScore,
+  getGPUScore,
+  getBoardScore,
+  getRAMScore,
+  getSSDScore,
+  getPSUScore,
+  getCoolingScore,
+  getCaseScore,
+  calculateScore,
+  getCategory
+};

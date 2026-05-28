@@ -1,0 +1,15 @@
+{
+  "name": "pc-gamer-top",
+  "version": "2.0.0",
+  "description": "PC Gamer Top - Builds y componentes para gaming 2026",
+  "main": "index.html",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch"
+  },
+  "keywords": ["gaming", "pc-builds", "hardware"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
