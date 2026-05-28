@@ -130,7 +130,8 @@ function buildScorePayload(build) {
     ssd: data.ssd?.name || '',
     psu: data.psu?.name || '',
     extras: build.extras || buildExtrasFromComponents(data),
-    price: build.price || 0
+    price: build.price || 0,
+    componentData: data // Pasar componentData completo para validación de compatibilidad
   };
 }
 
@@ -179,7 +180,7 @@ function migrateLegacyBuildConfig(config) {
 
 const PREDEFINED_BUILDS = [
   {
-    title: "God Mode - S-Tier",
+    title: "👑 God Mode - RTX 5090",
     components: {
       cpu: 'cpu-ryzen-9-9950x3d',
       board: 'mb-asus-tuf-x870-plus',
@@ -196,7 +197,7 @@ const PREDEFINED_BUILDS = [
     reason: 'Build absoluta con los mejores componentes disponibles. Sin compromisos.'
   },
   {
-    title: "High-End Gaming",
+    title: "🔥 High-End - RTX 5080",
     components: {
       cpu: 'cpu-ryzen-9-9900x',
       board: 'mb-msi-mag-b850-tomahawk',
@@ -213,7 +214,7 @@ const PREDEFINED_BUILDS = [
     reason: 'Gaming de gama alta con CPU de 12 núcleos y GPU RTX 5080.'
   },
   {
-    title: "Premium AMD",
+    title: "🔥 High-End - RX 9090",
     components: {
       cpu: 'cpu-ryzen-7-7800x3d',
       board: 'mb-asus-tuf-x870-plus',
@@ -230,7 +231,7 @@ const PREDEFINED_BUILDS = [
     reason: 'La mejor combinación AMD para gaming con X3D y RX 9090.'
   },
   {
-    title: "RTX Ultra",
+    title: "⭐ Premium - RTX 5070 Ti",
     components: {
       cpu: 'cpu-ryzen-9-9900x',
       board: 'mb-asus-tuf-x870-plus',
@@ -239,7 +240,7 @@ const PREDEFINED_BUILDS = [
       ssd: 'ssd-wd-black-sn7100-1tb',
       psu: 'psu-corsair-rm850e',
       cooler: 'cooler-thermalright-phantom-spirit-120-se',
-      case: 'case-fractal-design-north'
+      case: 'case-lianli-lancool-207'
     },
     gaming: 'Excelente',
     ia: 'Excelente',
@@ -247,7 +248,7 @@ const PREDEFINED_BUILDS = [
     reason: 'RTX 5070 Ti con CPU de 12 núcleos para multitarea y gaming.'
   },
   {
-    title: "Creator Pro",
+    title: "👑 Creator Pro - RTX 5080",
     components: {
       cpu: 'cpu-ryzen-9-9950x3d',
       board: 'mb-asus-tuf-x870-plus',
@@ -264,7 +265,7 @@ const PREDEFINED_BUILDS = [
     reason: 'Pensada para productividad extrema, renderizado y IA local.'
   },
   {
-    title: "AM5 Flagship",
+    title: "⭐ Premium - RX 9080",
     components: {
       cpu: 'cpu-ryzen-9-9900x',
       board: 'mb-msi-mag-b850-tomahawk',
@@ -278,7 +279,75 @@ const PREDEFINED_BUILDS = [
     gaming: 'Extrema',
     ia: 'Excelente',
     future: 'Extrema',
-    reason: 'La mejor plataforma AM5 con RX 9080 para gaming premium.'
+    reason: 'High-End AMD con RX 9080 para rendimiento 4K raster excelente.'
+  },
+  {
+    title: "🔥 High-End - RTX 5070",
+    components: {
+      cpu: 'cpu-ryzen-7-7800x3d',
+      board: 'mb-msi-b850-gaming-plus-wifi',
+      gpu: 'gpu-rtx-5070-12gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-kingston-nv3-1tb',
+      psu: 'psu-corsair-rm850e',
+      cooler: 'cooler-thermalright-phantom-spirit-120-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'High-End con RTX 5070 para gaming 1440p ultra y IA local.'
+  },
+  {
+    title: "⭐ Premium - RX 9070 XT",
+    components: {
+      cpu: 'cpu-ryzen-7-7800x3d',
+      board: 'mb-msi-b850-gaming-plus-wifi',
+      gpu: 'gpu-rx-9070xt-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-kingston-nv3-1tb',
+      psu: 'psu-corsair-rm850e',
+      cooler: 'cooler-thermalright-phantom-spirit-120-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Muy buena',
+    future: 'Extrema',
+    reason: 'Premium AMD con RX 9070 XT para gaming 1440p raster puro.'
+  },
+  {
+    title: "👑 God Mode - RX 9090 Alternative",
+    components: {
+      cpu: 'cpu-ryzen-9-9950x3d',
+      board: 'mb-msi-mag-b850-tomahawk',
+      gpu: 'gpu-rx-9090-24gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-crucial-p310-1tb',
+      psu: 'psu-asrock-phantom-1300',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Extrema',
+    ia: 'Extrema',
+    future: 'Extrema',
+    reason: 'Alternativa AMD God Mode con RX 9090 24GB para raster puro y FSR 4.'
+  },
+  {
+    title: "🔥 High-End - RTX 5060 Ti",
+    components: {
+      cpu: 'cpu-ryzen-9-9900x',
+      board: 'mb-asus-tuf-x870-plus',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-wd-black-sn7100-1tb',
+      psu: 'psu-fsp-vita-gm-1000',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-thermaltake-view-170'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'High-End con RTX 5060 Ti para IA local y gaming premium.'
   }
 ];
 

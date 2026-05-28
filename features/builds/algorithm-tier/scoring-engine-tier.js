@@ -4,6 +4,8 @@
  * Ideal para usuarios que buscan el mejor rendimiento sin importar el presupuesto
  */
 
+import { validateBuildCompatibility, getCompatibilityScore } from '../../shared/engines/compatibility-engine.js';
+
 /**
  * Calcula el score de una CPU basado en su nombre (Tier List - prioriza gama alta)
  * @param {string} cpu - Nombre de la CPU
@@ -285,8 +287,21 @@ function calculateScore(build){
   if(cpuScore >= 120 && gpuScore >= 150 && boardScore >= 45) completenessBonus += 25;
   if(ramScore >= 30 && ssdScore >= 35) completenessBonus += 15;
   
+  // 5. Validación de compatibilidad (penaliza builds incompatibles)
+  let compatibilityPenalty = 0;
+  if (build.componentData) {
+    const validation = validateBuildCompatibility(build.componentData);
+    if (!validation.valid) {
+      // Penalización severa por incompatibilidad
+      compatibilityPenalty = -150 * validation.issues.length;
+    } else if (validation.warnings.length > 0) {
+      // Penalización menor por warnings
+      compatibilityPenalty = -15 * validation.warnings.length;
+    }
+  }
+  
   // Score final (redondeado)
-  return Math.round(weightedScore + tierBonus + completenessBonus);
+  return Math.round(weightedScore + tierBonus + completenessBonus + compatibilityPenalty);
 }
 
 /**

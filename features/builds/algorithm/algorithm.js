@@ -129,7 +129,8 @@ function buildScorePayload(build) {
     ssd: data.ssd?.name || '',
     psu: data.psu?.name || '',
     extras: build.extras || buildExtrasFromComponents(data),
-    price: build.price || 0
+    price: build.price || 0,
+    componentData: data // Pasar componentData completo para validación de compatibilidad
   };
 }
 
@@ -229,7 +230,7 @@ const PREDEFINED_BUILDS = [
     reason: 'La forma más barata de entrar a IA local seria con NVIDIA 16GB sin sacrificar rendimiento 1440p.'
   },
   {
-    title: "Ultra Económica",
+    title: "AM5 Budget mATX",
     components: {
       cpu: 'cpu-ryzen-5-9600x',
       board: 'mb-gigabyte-b850m-ds3h',
@@ -243,7 +244,7 @@ const PREDEFINED_BUILDS = [
     gaming: 'Muy buena',
     ia: 'Correcta',
     future: 'Media',
-    reason: 'La forma más barata de entrar fuerte a AM5 + 1440p.'
+    reason: 'Build AM5 económica con motherboard básica para entrar fuerte a 1440p.'
   },
   {
     title: "RTX Premium Budget",
@@ -380,6 +381,74 @@ const PREDEFINED_BUILDS = [
     ia: 'Excelente',
     future: 'Alta',
     reason: 'Versión económica de la build RTX IA Local manteniendo CUDA y DLSS.'
+  },
+  {
+    title: "Build Estética Blanca",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-asrock-x870-pro-rs',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-gigastone-game-pro-32',
+      ssd: 'ssd-wd-black-sn7100-1tb',
+      psu: 'psu-segotep-gm850',
+      cooler: 'cooler-thermalright-peerless-120-se-argb-white',
+      case: 'case-gabinete-pecera-arsx5'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Muy alta',
+    reason: 'Build estética blanca/panorama muy fuerte para gaming e IA.'
+  },
+  {
+    title: "Creator Workstation",
+    components: {
+      cpu: 'cpu-ryzen-9-9900x',
+      board: 'mb-asus-tuf-x870-plus',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-crucial-p310-1tb',
+      psu: 'psu-fsp-vita-gm-1000',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-thermaltake-view-170'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'Pensada para productividad pesada, IA local y multitarea.'
+  },
+  {
+    title: "Ultra Premium Gaming",
+    components: {
+      cpu: 'cpu-ryzen-9-9950x3d',
+      board: 'mb-msi-mag-b850-tomahawk',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-crucial-p310-1tb',
+      psu: 'psu-fsp-vita-gm-1000',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'Build exageradamente poderosa para gaming extremo y productividad.'
+  },
+  {
+    title: "Gaming Budget Optimizado",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850m-ds3h',
+      gpu: 'gpu-rx-9060xt-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-xpg-probe-700',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-iceberg-clacius'
+    },
+    gaming: 'Muy buena',
+    ia: 'Correcta',
+    future: 'Media',
+    reason: 'La forma más barata de entrar fuerte a AM5 + 1440p.'
   }
 ];
 

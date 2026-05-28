@@ -3,6 +3,8 @@
  * Módulo reutilizable para calcular la calidad de una build basada en sus componentes
  */
 
+import { validateBuildCompatibility, getCompatibilityScore } from '../../shared/engines/compatibility-engine.js';
+
 /**
  * Calcula el score de una CPU basado en su nombre
  * @param {string} cpu - Nombre de la CPU
@@ -270,8 +272,21 @@ function calculateScore(build){
   if(build.price < 5500000 && weightedScore > 250) budgetBonus = 20;
   if(build.price >= 5500000 && build.price <= 6500000 && weightedScore > 280) budgetBonus = 10;
   
+  // 6. Validación de compatibilidad (penaliza builds incompatibles)
+  let compatibilityPenalty = 0;
+  if (build.componentData) {
+    const validation = validateBuildCompatibility(build.componentData);
+    if (!validation.valid) {
+      // Penalización severa por incompatibilidad
+      compatibilityPenalty = -100 * validation.issues.length;
+    } else if (validation.warnings.length > 0) {
+      // Penalización menor por warnings
+      compatibilityPenalty = -10 * validation.warnings.length;
+    }
+  }
+  
   // Score final (redondeado)
-  return Math.round(weightedScore + valueScore + penalty + budgetBonus);
+  return Math.round(weightedScore + valueScore + penalty + budgetBonus + compatibilityPenalty);
 }
 
 /**
