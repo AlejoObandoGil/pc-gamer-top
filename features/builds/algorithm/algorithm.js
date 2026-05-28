@@ -13,17 +13,375 @@ import { formatPrice } from '../../shared/utils/formatters.js';
 
 const builds = [];
 const STORAGE_KEY = 'pcGamerBuilds_v2';
+const COMPONENT_TYPES = ['cpu','board','gpu','ram','ssd','psu','cooler','case'];
+const COMPONENT_LOOKUP = buildComponentLookup();
 
 // ========================================
 // AGREGAR BUILD
 // ========================================
 
-function addBuild(build) {
-  build.score = calculateScore(build);
-  builds.push(build);
+function addBuild(buildConfig, options = {}) {
+  const normalized = normalizeBuildConfig(buildConfig);
+  const scorePayload = buildScorePayload(normalized);
+  normalized.score = calculateScore(scorePayload);
+  builds.push(normalized);
   builds.sort((a, b) => b.score - a.score);
-  renderTable();
+  if (!options.silent) {
+    renderTable();
+  }
+  return normalized;
 }
+
+// ========================================
+// HELPER FUNCTIONS
+// ========================================
+
+function buildComponentLookup() {
+  const lookup = {};
+  Object.entries(COMPONENTS).forEach(([type, list]) => {
+    const byId = {};
+    const byName = {};
+    list.forEach((comp, index) => {
+      if (comp.id) byId[comp.id] = comp;
+      byName[comp.name.toLowerCase()] = comp;
+      // Compatibilidad con selects antiguos basados en índice
+      byId[index] = comp;
+    });
+    lookup[type] = { byId, byName };
+  });
+  return lookup;
+}
+
+function getComponentInfo(type, identifier) {
+  if (!identifier || !COMPONENT_LOOKUP[type]) return null;
+  const lookup = COMPONENT_LOOKUP[type];
+
+  if (typeof identifier === 'object' && identifier !== null) {
+    if (identifier.id && lookup.byId[identifier.id]) return lookup.byId[identifier.id];
+    if (identifier.name) {
+      const key = identifier.name.toLowerCase();
+      if (lookup.byName[key]) return lookup.byName[key];
+    }
+    return null;
+  }
+
+  if (lookup.byId[identifier]) return lookup.byId[identifier];
+
+  const key = typeof identifier === 'string'
+    ? identifier.toLowerCase()
+    : String(identifier).toLowerCase();
+  return lookup.byName[key] || null;
+}
+
+function calculateBuildPrice(componentData) {
+  return Object.values(componentData).reduce((sum, comp) => sum + (comp?.price || 0), 0);
+}
+
+function buildExtrasFromComponents(componentData) {
+  const cooler = componentData.cooler?.name || '';
+  const caseName = componentData.case?.name || '';
+  return [cooler, caseName].filter(Boolean).join(' | ');
+}
+
+function normalizeBuildConfig(raw = {}) {
+  const componentRefs = {};
+  COMPONENT_TYPES.forEach(type => {
+    if (raw.components?.[type]) {
+      componentRefs[type] = raw.components[type];
+    } else if (raw[type]) {
+      componentRefs[type] = raw[type];
+    }
+  });
+
+  const componentData = {};
+  COMPONENT_TYPES.forEach(type => {
+    componentData[type] = componentRefs[type] ? getComponentInfo(type, componentRefs[type]) : null;
+  });
+
+  const price = raw.price || calculateBuildPrice(componentData);
+  const extras = raw.extras || buildExtrasFromComponents(componentData);
+
+  return {
+    id: raw.id || `build-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: raw.title || 'Build personalizada',
+    components: componentRefs,
+    componentData,
+    price,
+    extras,
+    gaming: raw.gaming || raw.metaGaming || '-',
+    ia: raw.ia || raw.metaIa || '-',
+    future: raw.future || raw.metaFuture || '-',
+    reason: raw.reason || raw.pros || null,
+    pros: raw.pros || null,
+    cons: raw.cons || null,
+    isCustom: Boolean(raw.isCustom),
+    source: raw.source || (raw.isCustom ? 'custom' : 'predefined')
+  };
+}
+
+function buildScorePayload(build) {
+  const data = build.componentData || {};
+  return {
+    cpu: data.cpu?.name || '',
+    board: data.board?.name || '',
+    gpu: data.gpu?.name || '',
+    ram: data.ram?.name || '',
+    ssd: data.ssd?.name || '',
+    psu: data.psu?.name || '',
+    extras: build.extras || buildExtrasFromComponents(data),
+    price: build.price || 0
+  };
+}
+
+function getStoredBuilds() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return Array.isArray(raw) ? raw : [];
+  } catch (error) {
+    console.warn('No se pudo leer builds guardadas', error);
+    return [];
+  }
+}
+
+function saveStoredBuilds(list) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+function migrateLegacyBuildConfig(config) {
+  if (!config) return null;
+  if (config.components) return config;
+
+  const componentRefs = {};
+  COMPONENT_TYPES.forEach(type => {
+    const legacyValue = config[type];
+    if (legacyValue) {
+      const comp = getComponentInfo(type, legacyValue);
+      if (comp?.id) componentRefs[type] = comp.id;
+    }
+  });
+
+  if (!Object.keys(componentRefs).length) return null;
+
+  return {
+    id: config.id || `legacy-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: config.title || 'Build personalizada',
+    components: componentRefs,
+    pros: config.pros,
+    cons: config.cons,
+    reason: config.reason,
+    gaming: config.gaming,
+    ia: config.ia,
+    future: config.future,
+    isCustom: true
+  };
+}
+
+const PREDEFINED_BUILDS = [
+  {
+    title: "Mejor Calidad/Precio",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850-eagle-wifi6e',
+      gpu: 'gpu-rx-9060xt-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-1tb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-adata-xpg-invader'
+    },
+    gaming: 'Excelente',
+    ia: 'Buena',
+    future: 'Muy alta',
+    reason: 'La build AM5 más equilibrada para jugar 1440p ultra y crecer a futuro.'
+  },
+  {
+    title: "RTX IA Local",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850-eagle-wifi6e',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-1tb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-iceberg-flow-e'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Muy alta',
+    reason: 'La mejor combinación económica para IA local con CUDA y gaming moderno.'
+  },
+  {
+    title: "RTX IA Local SSD 500GB",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850-eagle-wifi6e',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-kingston-fury-beast-16-5600',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-iceberg-flow-e'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Alta',
+    reason: 'La forma más barata de entrar a IA local seria con NVIDIA 16GB sin sacrificar rendimiento 1440p.'
+  },
+  {
+    title: "Ultra Económica",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850m-ds3h',
+      gpu: 'gpu-rx-9060xt-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-xpg-probe-700',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-iceberg-clacius'
+    },
+    gaming: 'Muy buena',
+    ia: 'Correcta',
+    future: 'Media',
+    reason: 'La forma más barata de entrar fuerte a AM5 + 1440p.'
+  },
+  {
+    title: "RTX Premium Budget",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-msi-b850-gaming-plus-wifi',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-jyr-mesh'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Muy alta',
+    reason: 'Board mucho más fuerte manteniendo precio accesible.'
+  },
+  {
+    title: "RTX IA Premium",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-msi-b850-gaming-plus-wifi',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-kingston-nv3-1tb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-peerless-120-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'Build mucho más premium para IA local seria y upgrades largos.'
+  },
+  {
+    title: "Top Gaming AMD",
+    components: {
+      cpu: 'cpu-ryzen-7-7800x3d',
+      board: 'mb-msi-b850-gaming-plus-wifi',
+      gpu: 'gpu-rx-9060xt-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-wd-black-sn7100-1tb',
+      psu: 'psu-corsair-rm850e',
+      cooler: 'cooler-thermalright-phantom-spirit-120-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Muy buena',
+    future: 'Extrema',
+    reason: 'Gaming brutal en 1440p y preparado para GPUs futuras.'
+  },
+  {
+    title: "AM5 Creator IA",
+    components: {
+      cpu: 'cpu-ryzen-9-9900x',
+      board: 'mb-asus-tuf-x870-plus',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-crucial-p310-1tb',
+      psu: 'psu-fsp-vita-gm-1000',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-thermaltake-view-170'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'Pensada para productividad pesada, IA local y multitarea.'
+  },
+  {
+    title: "Best Looking Build",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-asrock-x870-pro-rs',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-gigastone-game-pro-32',
+      ssd: 'ssd-wd-black-sn7100-1tb',
+      psu: 'psu-segotep-gm850',
+      cooler: 'cooler-thermalright-peerless-120-se-argb-white',
+      case: 'case-gabinete-pecera-arsx5'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Muy alta',
+    reason: 'Build estética blanca/panorama muy fuerte para gaming e IA.'
+  },
+  {
+    title: "Top Gama Absoluta",
+    components: {
+      cpu: 'cpu-ryzen-9-9950x3d',
+      board: 'mb-msi-mag-b850-tomahawk',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-puskill-32-6000-cl30',
+      ssd: 'ssd-crucial-p310-1tb',
+      psu: 'psu-fsp-vita-gm-1000',
+      cooler: 'cooler-thermalright-peerless-140-se',
+      case: 'case-lianli-lancool-207'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Extrema',
+    reason: 'Build exageradamente poderosa para gaming extremo y productividad.'
+  },
+  {
+    title: "Compacta mATX WiFi",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-asrock-b850m-x',
+      gpu: 'gpu-rx-9060xt-16gb',
+      ram: 'ram-patriot-viper-elite5-16',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-xpg-probe-700',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-okinos-matx'
+    },
+    gaming: 'Excelente',
+    ia: 'Buena',
+    future: 'Alta',
+    reason: 'Build compacta mATX con WiFi integrado, ideal para espacios reducidos sin sacrificar rendimiento AM5.'
+  },
+  {
+    title: "RTX IA Budget",
+    components: {
+      cpu: 'cpu-ryzen-5-9600x',
+      board: 'mb-gigabyte-b850-eagle-wifi6e',
+      gpu: 'gpu-rtx-5060ti-16gb',
+      ram: 'ram-kingston-fury-beast-rgb-16',
+      ssd: 'ssd-kingston-nv3-500gb',
+      psu: 'psu-msi-mag-a750bn-pcie5',
+      cooler: 'cooler-thermalright-assassin-x120',
+      case: 'case-iceberg-flow-e'
+    },
+    gaming: 'Excelente',
+    ia: 'Excelente',
+    future: 'Alta',
+    reason: 'Versión económica de la build RTX IA Local manteniendo CUDA y DLSS.'
+  }
+];
 
 // ========================================
 // RENDER TABLE
@@ -41,22 +399,31 @@ function renderTable() {
     if (index === 2) medal = "🥉";
 
     const category = getCategory(build.score);
+    const data = build.componentData || {};
+    const totalPrice = build.price || calculateBuildPrice(data);
+
+    // Clases para Gaming, IA y Future
+    const gamingClass = build.gaming === 'Excelente' ? 'good' : build.gaming === 'Muy buena' ? 'good' : 'mid';
+    const iaClass = build.ia === 'Excelente' ? 'good' : build.ia === 'Buena' || build.ia === 'Muy buena' ? 'mid' : '';
+    const futureClass = build.future === 'Extrema' || build.future === 'Muy alta' ? 'good' : build.future === 'Alta' ? 'mid' : '';
 
     tbody.innerHTML += `
       <tr>
         <td class="rank">${medal}</td>
-        <td>${build.cpu}</td>
-        <td>${build.board}</td>
-        <td>${build.gpu}</td>
-        <td>${build.ram}</td>
-        <td>${build.ssd}</td>
-        <td>${build.psu}</td>
-        <td>${build.extras}</td>
-        <td class="price">${formatPrice(build.price)}</td>
+        <td><strong>${build.title || 'Build personalizada'}</strong><br><small class="component-price">$${formatPrice(totalPrice)} COP</small></td>
+        <td>${data.cpu?.name || '-'}<br><small class="specs">${data.cpu?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.cpu?.price || 0)} COP</small></td>
+        <td>${data.board?.name || '-'}<br><small class="specs">${data.board?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.board?.price || 0)} COP</small></td>
+        <td>${data.gpu?.name || '-'}<br><small class="specs">${data.gpu?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.gpu?.price || 0)} COP</small></td>
+        <td>${data.ram?.name || '-'}<br><small class="specs">${data.ram?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.ram?.price || 0)} COP</small></td>
+        <td>${data.ssd?.name || '-'}<br><small class="specs">${data.ssd?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.ssd?.price || 0)} COP</small></td>
+        <td>${data.psu?.name || '-'}<br><small class="specs">${data.psu?.specs || ''}</small><br><small class="component-price">$${formatPrice(data.psu?.price || 0)} COP</small></td>
+        <td class="${gamingClass}">${build.gaming || '-'}</td>
+        <td class="${iaClass}">${build.ia || '-'}</td>
+        <td class="${futureClass}">${build.future || '-'}</td>
+        <td class="price">${formatPrice(totalPrice)}</td>
         <td class="score">${build.score}</td>
         <td><span class="tag ${category.class}">${category.text}</span></td>
-        <td class="good">${build.pros}</td>
-        <td class="bad">${build.cons}</td>
+        <td>${build.reason || build.pros || '-'}</td>
       </tr>
     `;
   });
@@ -67,15 +434,17 @@ function renderTable() {
 // ========================================
 
 function populateSelects() {
-  Object.keys(COMPONENTS).forEach(type => {
+  COMPONENT_TYPES.forEach(type => {
     const sel = document.getElementById('sel-' + type);
+    if (!sel) return;
     sel.innerHTML = '<option value="">-- Seleccionar ' + type.toUpperCase() + ' --</option>';
-    COMPONENTS[type].forEach((comp, idx) => {
+    COMPONENTS[type].forEach(comp => {
       const opt = document.createElement('option');
-      opt.value = idx;
+      opt.value = comp.id || comp.name;
       opt.textContent = comp.name;
       sel.appendChild(opt);
     });
+    updateComponentInfo(type);
   });
   updateTotal();
 }
@@ -83,21 +452,23 @@ function populateSelects() {
 function updateComponentInfo(type) {
   const sel = document.getElementById('sel-' + type);
   const info = document.getElementById('info-' + type);
-  const idx = sel.value;
-  if (idx === "") {
-    info.textContent = "";
+  if (!sel || !info) return;
+  if (!sel.value) {
+    info.textContent = '';
   } else {
-    const comp = COMPONENTS[type][idx];
-    info.textContent = formatPrice(comp.price) + ' • ' + comp.specs;
+    const comp = getComponentInfo(type, sel.value);
+    info.textContent = comp ? `${formatPrice(comp.price)} • ${comp.specs}` : '';
   }
   updateTotal();
 }
 
 function updateTotal() {
   let total = 0;
-  Object.keys(COMPONENTS).forEach(type => {
+  COMPONENT_TYPES.forEach(type => {
     const sel = document.getElementById('sel-' + type);
-    if (sel.value !== "") total += COMPONENTS[type][sel.value].price;
+    if (!sel || !sel.value) return;
+    const comp = getComponentInfo(type, sel.value);
+    if (comp) total += comp.price;
   });
   document.getElementById('total-price').textContent = 'Total: ' + formatPrice(total);
 }
@@ -117,53 +488,80 @@ function closeModal() {
 }
 
 function createBuild() {
-  const selections = {};
-  let total = 0;
-  for (const type of Object.keys(COMPONENTS)) {
+  const componentIds = {};
+  COMPONENT_TYPES.forEach(type => {
     const sel = document.getElementById('sel-' + type);
-    if (sel.value === "") {
-      alert('Selecciona un componente para: ' + type.toUpperCase());
+    if (!sel || !sel.value) {
+      componentIds.__missing = type;
       return;
     }
-    selections[type] = COMPONENTS[type][sel.value];
-    total += selections[type].price;
+    const comp = getComponentInfo(type, sel.value);
+    if (!comp) {
+      componentIds.__missing = type;
+      return;
+    }
+    componentIds[type] = comp.id || comp.name;
+  });
+
+  if (componentIds.__missing) {
+    alert('Selecciona un componente para: ' + componentIds.__missing.toUpperCase());
+    return;
   }
-  const extras = selections.cooler.name + ' | ' + selections.case.name;
-  const build = {
-    cpu: selections.cpu.name,
-    board: selections.board.name,
-    gpu: selections.gpu.name,
-    ram: selections.ram.name,
-    ssd: selections.ssd.name,
-    psu: selections.psu.name,
-    extras: extras,
-    price: total,
-    pros: document.getElementById('input-pros').value || 'Build personalizada por el usuario',
-    cons: document.getElementById('input-cons').value || 'Sin contras documentadas',
-    isCustom: true,
-    id: Date.now()
+
+  delete componentIds.__missing;
+
+  const pros = document.getElementById('input-pros').value?.trim() || 'Build personalizada por el usuario';
+  const cons = document.getElementById('input-cons').value?.trim() || 'Sin contras documentadas';
+
+  const buildConfig = {
+    id: Date.now(),
+    title: 'Build personalizada',
+    components: componentIds,
+    pros,
+    cons,
+    reason: pros,
+    isCustom: true
   };
-  build.score = calculateScore(build);
-  const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  stored.push(build);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+
+  addBuild(buildConfig);
+
+  const stored = getStoredBuilds();
+  stored.push({
+    id: buildConfig.id,
+    title: buildConfig.title,
+    components: buildConfig.components,
+    pros,
+    cons,
+    reason: buildConfig.reason,
+    isCustom: true
+  });
+  saveStoredBuilds(stored);
+
   closeModal();
   loadCustomBuilds();
 }
 
 function loadCustomBuilds() {
-  const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  const stored = getStoredBuilds();
+  const migrated = stored
+    .map(migrateLegacyBuildConfig)
+    .filter(Boolean);
+
+  if (migrated.length !== stored.length) {
+    saveStoredBuilds(migrated);
+  }
+
   for (let i = builds.length - 1; i >= 0; i--) {
     if (builds[i].isCustom) builds.splice(i, 1);
   }
-  stored.forEach(b => builds.push(b));
-  builds.sort((a, b) => b.score - a.score);
+
+  migrated.forEach(cfg => addBuild({ ...cfg, isCustom: true }, { silent: true }));
   renderTable();
 }
 
 function clearCustomBuilds() {
   if (!confirm('Eliminar todas tus builds personalizadas?')) return;
-  localStorage.removeItem(STORAGE_KEY);
+  saveStoredBuilds([]);
   for (let i = builds.length - 1; i >= 0; i--) {
     if (builds[i].isCustom) builds.splice(i, 1);
   }
@@ -185,167 +583,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-create-build').addEventListener('click', createBuild);
   
   // Selects del modal
-  Object.keys(COMPONENTS).forEach(type => {
+  COMPONENT_TYPES.forEach(type => {
     const sel = document.getElementById('sel-' + type);
-    sel.addEventListener('change', () => updateComponentInfo(type));
+    if (sel) sel.addEventListener('change', () => updateComponentInfo(type));
   });
 
   // Builds predefinidas
-  addBuild({
-    cpu: "Ryzen 5 9600X",
-    board: "B650M",
-    gpu: "RTX 5070 12GB",
-    ram: "16GB DDR5 6000",
-    ssd: "1TB SSD",
-    psu: "800W Bronze",
-    extras: "Líquida 240 + 7 Fans",
-    price: 5920000,
-    pros: "Excelente balance general, GPU muy potente, AM5 sólida",
-    cons: "Fuente no especificada"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 9600X",
-    board: "MSI B850-S",
-    gpu: "RTX 5070 ASUS PRIME",
-    ram: "16GB G.Skill 6000",
-    ssd: "1TB Patriot",
-    psu: "Cooler Master Gold Modular",
-    extras: "Thermalright + Cougar Panorámico",
-    price: 6990000,
-    pros: "La build más refinada y premium",
-    cons: "Precio bastante elevado"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 9600X",
-    board: "X870 Gigabyte WiFi",
-    gpu: "RTX 5060Ti 16GB",
-    ram: "16GB DDR5",
-    ssd: "1TB SSD",
-    psu: "750W Bronze",
-    extras: "Thermalright",
-    price: 5720000,
-    pros: "La mejor motherboard del listado",
-    cons: "La RTX 5070 envejece mucho mejor"
-  });
-
-  addBuild({
-    cpu: "Ryzen 7 8700F",
-    board: "MSI PRO B840-B",
-    gpu: "RTX 5070 12GB",
-    ram: "16GB DDR5",
-    ssd: "500GB SSD",
-    psu: "800W 80+",
-    extras: "Monitor MSI 144Hz + periféricos",
-    price: 5780000,
-    pros: "Excelente valor total incluyendo monitor",
-    cons: "SSD corto y componentes ocultos"
-  });
-
-  addBuild({
-    cpu: "Ryzen 7 8700F",
-    board: "B650M",
-    gpu: "RX 9060 XT 16GB",
-    ram: "16GB DDR5",
-    ssd: "1TB SSD",
-    psu: "650W Bronze",
-    extras: "4 Fans RGB",
-    price: 5550000,
-    pros: "Muy buena multitarea y raster",
-    cons: "RT y DLSS inferiores"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 7600X",
-    board: "A620M ASRock",
-    gpu: "RTX 5060Ti 16GB",
-    ram: "16GB 5600",
-    ssd: "1TB SSD",
-    psu: "750W Bronze",
-    extras: "Thermalright",
-    price: 5250000,
-    pros: "Muy buena económica",
-    cons: "A620 limita upgrades"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 9600X",
-    board: "MSI B650M",
-    gpu: "RTX 5060Ti 16GB PNY",
-    ram: "16GB DDR5 Patriot",
-    ssd: "512GB NVMe Patriot",
-    psu: "700W Bronze AZZA",
-    extras: "Líquida GameMax + Antec 5 ARGB",
-    price: 5520000,
-    pros: "Muy equilibrada y con marcas reales",
-    cons: "SSD corto y PSU normalita"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 7600X",
-    board: "B650",
-    gpu: "RTX 5060Ti 16GB",
-    ram: "16GB DDR5",
-    ssd: "480GB SSD",
-    psu: "650W Bronze",
-    extras: "Disipador de aire",
-    price: 5390000,
-    pros: "Buen combo CPU/GPU",
-    cons: "Muy poca especificación real"
-  });
-
-  addBuild({
-    cpu: "Ryzen 7 8700F",
-    board: "B650M",
-    gpu: "RTX 5060Ti 16GB",
-    ram: "16GB DDR5",
-    ssd: "480GB SSD",
-    psu: "650W Bronze",
-    extras: "4 Fans",
-    price: 5650000,
-    pros: "Buen CPU multitarea",
-    cons: "Cara para la GPU"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 7500F",
-    board: "Gigabyte B650M Gaming WiFi",
-    gpu: "RX 9060 XT 16GB",
-    ram: "16GB XPG 5600",
-    ssd: "1TB Kingston NV3",
-    psu: "650W Gold",
-    extras: "Cooler Master Elite 502",
-    price: 6036000,
-    pros: "Buena PSU y board",
-    cons: "CPU flojo para el precio"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 7600X",
-    board: "B850M WiFi6",
-    gpu: "RTX 5060Ti MSI",
-    ram: "16GB Viper",
-    ssd: "1TB Kingston NV3",
-    psu: "750W Cougar Bronze",
-    extras: "Thermalright + Cougar",
-    price: 6610000,
-    pros: "Board moderna",
-    cons: "Demasiado cara para una 5060Ti"
-  });
-
-  addBuild({
-    cpu: "Ryzen 5 4800F",
-    board: "B650M",
-    gpu: "RTX 5060Ti 16GB",
-    ram: "16GB DDR5",
-    ssd: "480GB NVMe",
-    psu: "650W Bronze",
-    extras: "4 Fans",
-    price: 5350000,
-    pros: "GPU competente",
-    cons: "CPU muy dudoso"
-  });
+  PREDEFINED_BUILDS.forEach(config => addBuild(config, { silent: true }));
+  renderTable();
 
   // Cargar builds personalizadas del localStorage
   loadCustomBuilds();
